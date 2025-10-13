@@ -1,0 +1,89 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║              🚀 VIBESYNC - QUICK START GUIDE 🚀             ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+📋 SIMPLE 2-STEP STARTUP:
+
+1️⃣  Make scripts executable:
+   chmod +x START_ALL.sh
+
+2️⃣  Start everything:
+   ./START_ALL.sh
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 WHAT HAPPENS:
+
+✅ Installs better-sqlite3 (if needed)
+✅ Creates SQLite database automatically
+✅ Starts backend server on port 3000
+✅ Starts Expo frontend
+✅ Opens in web browser (press 'w')
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 DEMO LOGIN CREDENTIALS:
+
+Email:    test@example.com
+Password: Test123!
+
+Note: First time? Register a new account!
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🛠️  ALTERNATIVE COMMANDS:
+
+Backend only:
+   chmod +x START_BACKEND.sh
+   ./START_BACKEND.sh
+
+Frontend only:
+   chmod +x START_FRONTEND.sh
+   ./START_FRONTEND.sh
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 TROUBLESHOOTING:
+
+❌ Port 3000 in use?
+   pkill -f "bun.*backend/server.ts"
+
+❌ Database errors?
+   rm vibesync.db
+   ./START_ALL.sh
+
+❌ Module not found?
+   bun install
+   ./START_ALL.sh
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 FEATURES:
+
+✨ Home Feed with Posts
+✨ Stories & Live Streams
+✨ Direct Messaging
+✨ Notifications
+✨ User Profiles
+✨ Discover Page
+✨ VibePosts (Video Feed)
+✨ Creative Studio
+✨ Trending Content
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 READY TO GO!
+
+Just run: ./START_ALL.sh
+
+╔═══════════════════════════════════════════════════════���══════╗
+║                    Happy Coding! 🎉                          ║
+╚══════════════════════════════════════════════════════════════╝

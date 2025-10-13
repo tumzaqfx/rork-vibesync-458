@@ -1,0 +1,66 @@
+═══════════════════════════════════════════════════════════════
+                    🎯 VIBESYNC - QUICK FIX
+═══════════════════════════════════════════════════════════════
+
+YOUR ERROR:
+  ❌ JSON Parse error: Unexpected character: <
+
+THE PROBLEM:
+  Backend is not running!
+
+THE SOLUTION:
+  Run this ONE command:
+
+  chmod +x RUN.sh && ./RUN.sh
+
+═══════════════════════════════════════════════════════════════
+
+WHAT IT DOES:
+  1. ✅ Kills old processes
+  2. ✅ Starts backend (port 3000)
+  3. ✅ Waits for backend to be ready
+  4. ✅ Starts frontend (port 8081)
+
+THEN:
+  - Press 'w' to open in browser
+  - Login with:
+    Email: test@example.com
+    Password: Test123!
+
+═══════════════════════════════════════════════════════════════
+
+VERIFY IT'S WORKING:
+  curl http://localhost:3000/health
+
+  Should return JSON (not HTML):
+  {"status":"ok","database":"connected",...}
+
+═══════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING:
+
+  Port in use?
+    lsof -ti:3000 | xargs kill -9
+    ./RUN.sh
+
+  Backend not starting?
+    cat backend.log
+
+  Still errors?
+    Read: ⚡_README_START_HERE.md
+    Or:   📖_VISUAL_GUIDE.md
+
+═══════════════════════════════════════════════════════════════
+
+QUICK COMMANDS:
+  Start:  ./RUN.sh
+  Test:   ./test-backend-quick.sh
+  Stop:   pkill -f "backend/server.ts" && pkill -f "expo start"
+
+═══════════════════════════════════════════════════════════════
+
+                    🚀 READY TO GO!
+
+                chmod +x RUN.sh && ./RUN.sh
+
+═══════════════════════════════════════════════════════════════
