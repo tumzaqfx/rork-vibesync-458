@@ -28,6 +28,29 @@ interface VibePostCardProps {
   autoplay?: boolean;
 }
 
+const VideoPlayer = ({ videoRef, videoUrl, isMuted, autoplay, onPlaybackStatusUpdate }: any) => {
+  if (!Video || !ResizeMode) {
+    return (
+      <View style={[{ width: '100%', height: '100%', backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: '#FFF' }}>Video player not available</Text>
+      </View>
+    );
+  }
+  
+  return (
+    <Video
+      ref={videoRef}
+      source={{ uri: videoUrl }}
+      style={{ width: '100%', height: '100%' }}
+      resizeMode={ResizeMode.COVER}
+      isLooping
+      isMuted={isMuted}
+      shouldPlay={autoplay}
+      onPlaybackStatusUpdate={onPlaybackStatusUpdate}
+    />
+  );
+};
+
 const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
   const { theme } = useTheme();
   const { likeVibePost, repostVibePost, incrementViews } = useVibePosts();
@@ -284,29 +307,6 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
 });
 
 VibePostCard.displayName = 'VibePostCard';
-
-const VideoPlayer = ({ videoRef, videoUrl, isMuted, autoplay, onPlaybackStatusUpdate }: any) => {
-  if (!Video || !ResizeMode) {
-    return (
-      <View style={[styles.video, { backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: '#FFF' }}>Video player not available</Text>
-      </View>
-    );
-  }
-  
-  return (
-    <Video
-      ref={videoRef}
-      source={{ uri: videoUrl }}
-      style={styles.video}
-      resizeMode={ResizeMode.COVER}
-      isLooping
-      isMuted={isMuted}
-      shouldPlay={autoplay}
-      onPlaybackStatusUpdate={onPlaybackStatusUpdate}
-    />
-  );
-};
 
 export { VibePostCard };
 export default VibePostCard;
