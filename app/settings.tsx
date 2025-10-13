@@ -565,6 +565,40 @@ export default function SettingsScreen() {
           </View>
         </View>
 
+        <View style={[styles.sectionHeader, { backgroundColor: colors.glass }]}>
+          <FileText size={20} color={colors.primary} />
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Legal & About</Text>
+        </View>
+        
+        <View style={[styles.card, { backgroundColor: colors.card }]}>
+          <TouchableOpacity 
+            style={[styles.settingItem, { borderBottomColor: colors.border }]}
+            onPress={() => router.push('/privacy-policy')}
+          >
+            <Shield size={18} color={colors.textSecondary} />
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Privacy Policy</Text>
+            <ChevronRight size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.settingItem, { borderBottomColor: colors.border }]}
+            onPress={() => router.push('/terms-of-service')}
+          >
+            <FileText size={18} color={colors.textSecondary} />
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Terms of Service</Text>
+            <ChevronRight size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={[styles.settingItem, { borderBottomWidth: 0 }]}
+            onPress={() => setShowFAQModal(true)}
+          >
+            <HelpCircle size={18} color={colors.textSecondary} />
+            <Text style={[styles.settingLabel, { color: colors.text }]}>Help & FAQ</Text>
+            <ChevronRight size={18} color={colors.textSecondary} />
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.section}>
           <TouchableOpacity 
             style={[styles.logoutButton, { backgroundColor: colors.card }]} 
