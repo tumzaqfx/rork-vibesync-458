@@ -1,6 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
-import { Video, ResizeMode, AVPlaybackStatus } from 'expo-av';
 import { Heart, MessageCircle, Repeat2, Share2, Play, Volume2, VolumeX, Maximize2 } from 'lucide-react-native';
 import { useTheme } from '@/hooks/theme-store';
 import { VibePost } from '@/types/vibepost';
@@ -8,6 +7,19 @@ import { useVibePosts } from '@/hooks/vibepost-store';
 import Avatar from '@/components/ui/Avatar';
 import VerifiedBadge from '@/components/ui/VerifiedBadge';
 import { router } from 'expo-router';
+
+let Video: any = null;
+let ResizeMode: any = null;
+
+if (Platform.OS !== 'web') {
+  try {
+    const expoAv = require('expo-av');
+    Video = expoAv.Video;
+    ResizeMode = expoAv.ResizeMode;
+  } catch (e) {
+    console.warn('expo-av not available:', e);
+  }
+}
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -98,7 +110,7 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
     router.push(`/user/${post.userId}`);
   }, [post.userId]);
 
-  const onPlaybackStatusUpdate = useCallback((status: AVPlaybackStatus) => {
+  const onPlaybackStatusUpdate = useCallback((status: any) => {
     if (status.isLoaded) {
       setIsPlaying(status.isPlaying);
     }
@@ -141,14 +153,11 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
             onPause={() => setIsPlaying(false)}
           />
         ) : (
-          <Video
-            ref={videoRef}
-            source={{ uri: post.videoUrl }}
-            style={styles.video}
-            resizeMode={ResizeMode.COVER}
-            isLooping
+          <VideoPlayer
+            videoRef={videoRef}
+            videoUrl={post.videoUrl}
             isMuted={isMuted}
-            shouldPlay={autoplay}
+            autoplay={autoplay}
             onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           />
         )}
@@ -275,6 +284,29 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
 });
 
 VibePostCard.displayName = 'VibePostCard';
+
+const VideoPlayer = ({ videoRef, videoUrl, isMuted, autoplay, onPlaybackStatusUpdate }: any) => {
+  if (!Video || !ResizeMode) {
+    return (
+      <View style={[styles.video, { backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: '#FFF' }}>Video player not available</Text>
+      </View>
+    );
+  }
+  
+  return (
+    <Video
+      ref={videoRef}
+      source={{ uri: videoUrl }}
+      style={styles.video}
+      resizeMode={ResizeMode.COVER}
+      isLooping
+      isMuted={isMuted}
+      shouldPlay={autoplay}
+      onPlaybackStatusUpdate={onPlaybackStatusUpdate}
+    />
+  );
+};
 
 export { VibePostCard };
 export default VibePostCard;
