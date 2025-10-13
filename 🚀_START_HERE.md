@@ -1,71 +1,68 @@
-# 🚀 VibeSync - Quick Start Guide
+# 🚀 Quick Start Guide
 
-## ✅ Prerequisites Check
+## The Error You're Seeing
 
-Your system is ready! The app uses:
-- ✅ **Bun** - Already installed
-- ✅ **SQLite** - Built into the app (no installation needed)
-- ✅ **Node/NPM** - For Expo
+```
+ERROR [tRPC] ❌ Network error: Network request failed
+ERROR [FloatingActionMenu] Post creation error: Cannot connect to backend server
+```
 
-## 🎯 Quick Start (3 Simple Steps)
+**This means the backend server is not running.**
+
+---
+
+## ✅ Solution: Start the Backend
 
 ### Option 1: Start Everything at Once (Recommended)
 
 ```bash
-chmod +x START_ALL.sh
-./START_ALL.sh
+chmod +x START_EVERYTHING.sh
+./START_EVERYTHING.sh
 ```
 
 This will:
-1. Start the backend server on port 3000
-2. Create the SQLite database automatically
-3. Start the Expo frontend
-4. Open the app in your browser
+1. Kill any existing processes on port 3000
+2. Start the backend server
+3. Wait for it to be ready
+4. Start the frontend with tunnel
 
-### Option 2: Start Backend and Frontend Separately
+---
 
-**Terminal 1 - Backend:**
+### Option 2: Start Backend Only
+
 ```bash
 chmod +x START_BACKEND.sh
 ./START_BACKEND.sh
 ```
 
-**Terminal 2 - Frontend:**
+Then in another terminal:
 ```bash
-chmod +x START_FRONTEND.sh
-./START_FRONTEND.sh
+bun start
 ```
 
-## 📱 Access the App
+---
 
-Once started:
-- **Web Browser**: Press `w` in the Expo terminal
-- **Mobile Device**: Scan the QR code with Expo Go app
+### Option 3: Manual Start
 
-## 🔐 Test Login
+**Terminal 1 (Backend):**
+```bash
+bun run backend/server.ts
+```
 
-The app works in demo mode without backend, but for full functionality:
+**Terminal 2 (Frontend):**
+```bash
+bun start
+```
 
-**Test Account:**
-- Email: `test@example.com`
-- Password: `Test123!`
+---
 
-## 🔧 What Happens on First Run
+## ✅ Verify Backend is Running
 
-1. **Backend starts** on `http://localhost:3000`
-2. **SQLite database** is created at `./vibesync.db`
-3. **Database tables** are created automatically
-4. **Frontend connects** to the backend
-5. **App opens** in your browser
-
-## ✅ Verify Everything Works
-
-### Check Backend Health:
 ```bash
 curl http://localhost:3000/health
 ```
 
-Should return:
+You should see:
 ```json
 {
   "status": "ok",
@@ -74,86 +71,51 @@ Should return:
 }
 ```
 
-### Check Frontend:
-- Open browser to the Expo URL
-- You should see the VibeSync splash screen
-- Then the auth screen
+---
 
-## 🐛 Troubleshooting
+## 🎯 What Each Script Does
 
-### Backend won't start?
-
-**Port 3000 already in use:**
-```bash
-pkill -f "bun.*backend"
-# or
-lsof -ti:3000 | xargs kill -9
-```
-
-**Database errors:**
-The database is created automatically. If you see errors, delete and restart:
-```bash
-rm vibesync.db
-./START_ALL.sh
-```
-
-### Frontend won't start?
-
-**Clear cache and restart:**
-```bash
-rm -rf .expo node_modules/.cache
-npx expo start --clear
-```
-
-**Expo not found:**
-```bash
-npm install -g expo-cli
-```
-
-### Can't connect to backend?
-
-**Check .env file:**
-```bash
-cat .env
-```
-
-Should contain:
-```
-EXPO_PUBLIC_BACKEND_URL=http://localhost:3000
-```
-
-## 📚 Project Structure
-
-```
-/home/user/rork-app/
-├── app/                    # Frontend screens
-├── backend/                # Backend API
-│   ├── hono.ts            # Main server
-│   ├── server-improved.ts # Server startup
-│   ├── db/                # Database
-│   └── trpc/              # API routes
-├── components/            # UI components
-├── hooks/                 # State management
-├── .env                   # Configuration
-└── vibesync.db           # SQLite database (created on first run)
-```
-
-## 🎉 You're Ready!
-
-The app is now fully functional with:
-- ✅ Working backend API
-- ✅ SQLite database
-- ✅ User authentication
-- ✅ All features enabled
-
-## 📞 Need Help?
-
-If you encounter any issues:
-1. Check the terminal output for error messages
-2. Verify backend is running: `curl http://localhost:3000/health`
-3. Check the browser console for frontend errors
-4. Make sure ports 3000 and 8081 are available
+- **START_BACKEND.sh** - Starts only the backend server on port 3000
+- **START_EVERYTHING.sh** - Starts both backend and frontend together
 
 ---
 
-**Made with ❤️ by VibeSync Team**
+## 📱 After Starting
+
+1. Backend will run on `http://localhost:3000`
+2. Frontend will show a QR code and tunnel URL
+3. Scan QR code with Expo Go app
+4. Or press `w` to open in web browser
+
+---
+
+## 🔧 Troubleshooting
+
+### Port 3000 Already in Use?
+
+```bash
+lsof -ti:3000 | xargs kill -9
+```
+
+### Backend Not Responding?
+
+Check if it's running:
+```bash
+ps aux | grep "backend/server.ts"
+```
+
+### Database Issues?
+
+The backend will start even if database connection fails, but with limited functionality.
+
+---
+
+## 🎉 You're Ready!
+
+Once the backend is running, all features will work:
+- Creating posts
+- Messaging
+- Live streams
+- Comments
+- Likes
+- And more!

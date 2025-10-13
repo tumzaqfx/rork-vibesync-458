@@ -1,20 +1,13 @@
 #!/bin/bash
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🚀 Starting VibeSync Backend"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🚀 Starting VibeSync Backend Server..."
 echo ""
 
-cd /home/user/rork-app
+# Kill any existing process on port 3000
+lsof -ti:3000 | xargs kill -9 2>/dev/null || true
 
-echo "📦 Installing dependencies..."
-bun install
+# Wait a moment for port to be freed
+sleep 1
 
-echo ""
-echo "🗄️  Database will be created automatically at: ./vibesync.db"
-echo ""
-
-echo "🚀 Starting backend server on port 3000..."
-echo ""
-
-bun run backend/server-improved.ts
+# Start the backend server
+bun run backend/server.ts
