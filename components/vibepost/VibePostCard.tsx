@@ -19,7 +19,7 @@ interface VibePostCardProps {
 const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
   const { theme } = useTheme();
   const { likeVibePost, repostVibePost, incrementViews } = useVibePosts();
-  const videoRef = useRef<Video>(null);
+  const videoRef = useRef<any>(null);
   
   const [isPlaying, setIsPlaying] = useState(autoplay);
   const [isMuted, setIsMuted] = useState(true);
@@ -129,18 +129,7 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
       </View>
 
       <View style={[styles.videoContainer, { height: videoHeight }]}>
-        {Platform.OS !== 'web' ? (
-          <Video
-            ref={videoRef}
-            source={{ uri: post.videoUrl }}
-            style={styles.video}
-            resizeMode={ResizeMode.COVER}
-            isLooping
-            isMuted={isMuted}
-            shouldPlay={autoplay}
-            onPlaybackStatusUpdate={onPlaybackStatusUpdate}
-          />
-        ) : (
+        {Platform.OS === 'web' ? (
           <video
             ref={videoRef as any}
             src={post.videoUrl}
@@ -150,6 +139,17 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
             autoPlay={autoplay}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
+          />
+        ) : (
+          <Video
+            ref={videoRef}
+            source={{ uri: post.videoUrl }}
+            style={styles.video}
+            resizeMode={ResizeMode.COVER}
+            isLooping
+            isMuted={isMuted}
+            shouldPlay={autoplay}
+            onPlaybackStatusUpdate={onPlaybackStatusUpdate}
           />
         )}
 
