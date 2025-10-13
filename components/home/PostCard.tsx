@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, Animated } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 import { Image } from 'expo-image';
@@ -134,11 +134,11 @@ const PostCardComponent: React.FC<PostCardProps> = ({
   const revibeAnim = useRef(new Animated.Value(1)).current;
   const saveAnim = useRef(new Animated.Value(1)).current;
 
-  const isLiked = isPostLiked(post.id);
-  const isRevibed = isPostRevibed(post.id);
-  const isSaved = isPostSaved(post.id);
-  const likesCount = post.likes + getPostLikes(post.id).length;
-  const revibesCount = post.shares + getPostRevibes(post.id).length;
+  const isLiked = useMemo(() => isPostLiked(post.id), [isPostLiked, post.id]);
+  const isRevibed = useMemo(() => isPostRevibed(post.id), [isPostRevibed, post.id]);
+  const isSaved = useMemo(() => isPostSaved(post.id), [isPostSaved, post.id]);
+  const likesCount = useMemo(() => post.likes + getPostLikes(post.id).length, [post.likes, getPostLikes, post.id]);
+  const revibesCount = useMemo(() => post.shares + getPostRevibes(post.id).length, [post.shares, getPostRevibes, post.id]);
 
   const animateButton = (animValue: Animated.Value) => {
     Animated.sequence([
@@ -503,7 +503,15 @@ const PostCardComponent: React.FC<PostCardProps> = ({
 
 PostCardComponent.displayName = 'PostCard';
 
-export const PostCard = React.memo(PostCardComponent);
+export const PostCard = React.memo(PostCardComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.post.id === nextProps.post.id &&
+    prevProps.post.likes === nextProps.post.likes &&
+    prevProps.post.comments === nextProps.post.comments &&
+    prevProps.post.shares === nextProps.post.shares &&
+    prevProps.post.views === nextProps.post.views
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
