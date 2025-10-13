@@ -38,7 +38,7 @@ interface VoicePostCardProps {
   testID?: string;
 }
 
-export const VoicePostCard: React.FC<VoicePostCardProps> = ({
+const VoicePostCardComponent: React.FC<VoicePostCardProps> = ({
   id,
   author,
   caption,
@@ -354,4 +354,15 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600' as const,
   },
+});
+
+export const VoicePostCard = React.memo(VoicePostCardComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.likes === nextProps.likes &&
+    prevProps.comments === nextProps.comments &&
+    prevProps.shares === nextProps.shares &&
+    prevProps.isLiked === nextProps.isLiked &&
+    prevProps.isSaved === nextProps.isSaved
+  );
 });

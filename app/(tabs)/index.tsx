@@ -576,15 +576,10 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
         removeClippedSubviews={true}
-        maxToRenderPerBatch={3}
-        updateCellsBatchingPeriod={100}
-        initialNumToRender={3}
-        windowSize={5}
-        getItemLayout={(data, index) => ({
-          length: 400,
-          offset: 400 * index,
-          index,
-        })}
+        maxToRenderPerBatch={5}
+        updateCellsBatchingPeriod={50}
+        initialNumToRender={5}
+        windowSize={10}
       />
       <FloatingActionMenu />
     </View>

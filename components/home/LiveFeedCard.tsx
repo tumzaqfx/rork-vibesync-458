@@ -17,7 +17,7 @@ interface LiveFeedCardProps {
   startedAt: Date;
 }
 
-export function LiveFeedCard({
+function LiveFeedCardComponent({
   id,
   userId,
   username,
@@ -210,4 +210,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 22,
   },
+});
+
+export const LiveFeedCard = React.memo(LiveFeedCardComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.viewerCount === nextProps.viewerCount &&
+    prevProps.title === nextProps.title
+  );
 });

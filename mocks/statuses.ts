@@ -43,7 +43,7 @@ export const mockStatuses: Status[] = [
     verified: true,
     type: 'voice',
     voiceContent: {
-      uri: 'https://example.com/voice/status-2.m4a',
+      uri: '',
       duration: 45,
       waveform: [0.2, 0.5, 0.8, 0.6, 0.9, 0.4, 0.7, 0.3, 0.6, 0.8, 0.5, 0.9, 0.7, 0.4, 0.6, 0.8, 0.3, 0.5, 0.7, 0.9],
       gradient: ['#667eea', '#764ba2'],
