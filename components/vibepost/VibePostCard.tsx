@@ -249,6 +249,8 @@ export const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCard
 
 VibePostCard.displayName = 'VibePostCard';
 
+export default VibePostCard;
+
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,

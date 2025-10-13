@@ -13,7 +13,7 @@ type StartSpillModalProps = {
 
 export default function StartSpillModal({ visible, onClose }: StartSpillModalProps) {
   const { startSpill } = useSpill();
-  const { trendingTopics } = useTrending();
+  const { topics } = useTrending();
   const [selectedTopic, setSelectedTopic] = useState<{ id: string; name: string; type: 'hashtag' | 'name' } | null>(null);
 
   const handleStartSpill = () => {
@@ -48,7 +48,7 @@ export default function StartSpillModal({ visible, onClose }: StartSpillModalPro
             <Text style={styles.subtitle}>Choose a trending topic to discuss</Text>
 
             <ScrollView style={styles.topicsList} showsVerticalScrollIndicator={false}>
-              {trendingTopics.slice(0, 10).map((topic) => (
+              {topics.slice(0, 10).map((topic) => (
                 <TouchableOpacity
                   key={topic.id}
                   style={[
