@@ -1,62 +1,46 @@
 #!/bin/bash
 
-echo ""
-echo "╔══════════════════════════════════════════╗"
-echo "║                                          ║"
-echo "║           🚀 VIBESYNC 🚀                ║"
-echo "║                                          ║"
-echo "║      Production-Ready Social App         ║"
-echo "║                                          ║"
-echo "╚══════════════════════════════════════════╝"
+echo "╔════════════════════════════════════════╗"
+echo "║     🎵 VibeSync Quick Start 🎵        ║"
+echo "╚════════════════════════════════════════╝"
 echo ""
 
-# Kill any existing processes
-echo "🧹 Cleaning up old processes..."
-pkill -f "bun.*backend/server.ts" 2>/dev/null || true
-pkill -f "expo start" 2>/dev/null || true
-pkill -f "node.*expo" 2>/dev/null || true
+# Kill any existing processes on port 3000
+echo "🧹 Cleaning up port 3000..."
+pkill -f "backend/server.ts" 2>/dev/null || true
+sleep 2
 
-# Wait a moment
-sleep 1
-
-echo "✅ Ready to start"
-echo ""
-
-# Start backend
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🔧 Starting Backend Server..."
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
-
-cd /home/user/rork-app
+# Start backend in background
+echo "🚀 Starting backend server..."
 bun backend/server.ts > backend.log 2>&1 &
 BACKEND_PID=$!
-
-echo "Backend PID: $BACKEND_PID"
-echo ""
+echo "   Backend PID: $BACKEND_PID"
 
 # Wait for backend to be ready
 echo "⏳ Waiting for backend to start..."
-for i in {1..15}; do
-  if curl -s http://localhost:3000/health > /dev/null 2>&1; then
-    echo "✅ Backend is ready!"
-    break
-  fi
-  if [ $i -eq 15 ]; then
-    echo "⚠️  Backend taking longer than expected, but continuing..."
-  fi
-  sleep 1
-done
+sleep 5
+
+# Check if backend is running
+if curl -s http://localhost:3000/health > /dev/null 2>&1; then
+    echo "✅ Backend is running!"
+else
+    echo "⚠️  Backend may not be ready yet, but continuing..."
+fi
 
 echo ""
+echo "🎨 Starting Expo with tunnel..."
+echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📱 Starting Frontend..."
+echo "  📱 Scan the QR code with Expo Go app"
+echo "  🌐 Backend: http://localhost:3000"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-# Start frontend
-bun start
+# Start Expo with tunnel
+npx expo start --tunnel
 
 # Cleanup on exit
-trap "echo ''; echo '🛑 Shutting down...'; kill $BACKEND_PID 2>/dev/null; echo '✅ Stopped'; exit" INT TERM
-wait
+echo ""
+echo "🛑 Stopping backend..."
+kill $BACKEND_PID 2>/dev/null || true
+echo "✅ Cleanup complete"

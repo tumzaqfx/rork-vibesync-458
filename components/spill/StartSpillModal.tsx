@@ -57,8 +57,8 @@ export default function StartSpillModal({ visible, onClose }: StartSpillModalPro
                   ]}
                   onPress={() => setSelectedTopic({ 
                     id: topic.id, 
-                    name: topic.name, 
-                    type: topic.type === 'hashtag' ? 'hashtag' : 'name' 
+                    name: topic.title, 
+                    type: topic.hashtag ? 'hashtag' : 'name' 
                   })}
                 >
                   <View style={styles.topicLeft}>
@@ -68,14 +68,14 @@ export default function StartSpillModal({ visible, onClose }: StartSpillModalPro
                       )}
                     </View>
                     <View style={styles.topicInfo}>
-                      <Text style={styles.topicName}>{topic.name}</Text>
+                      <Text style={styles.topicName}>{topic.title}</Text>
                       <Text style={styles.topicStats}>
-                        {formatCount(topic.postCount)} posts · {formatCount(topic.engagementCount)} engaged
+                        {formatCount(topic.posts)} posts · {formatCount(topic.engagement)} engaged
                       </Text>
                     </View>
                   </View>
                   <View style={styles.heatBadge}>
-                    <Text style={styles.heatText}>🔥 {topic.heat}</Text>
+                    <Text style={styles.heatText}>🔥 {Math.round(topic.trendingScore)}</Text>
                   </View>
                 </TouchableOpacity>
               ))}
@@ -104,7 +104,8 @@ export default function StartSpillModal({ visible, onClose }: StartSpillModalPro
   );
 }
 
-function formatCount(count: number): string {
+function formatCount(count: number | undefined): string {
+  if (!count && count !== 0) return '0';
   if (count >= 1000000) {
     return `${(count / 1000000).toFixed(1)}M`;
   }
