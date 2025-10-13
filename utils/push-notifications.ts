@@ -1,5 +1,3 @@
-import * as Notifications from 'expo-notifications';
-import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
@@ -8,29 +6,34 @@ const PUSH_TOKEN_KEY = '@vibesync_push_token';
 
 let isNotificationsSupported = true;
 let isExpoGo = false;
+let Notifications: any = null;
+let Device: any = null;
 
 try {
   const appOwnership = Constants.appOwnership;
   isExpoGo = appOwnership === 'expo';
   
   if (isExpoGo && Platform.OS === 'android') {
-    console.log('[PushNotifications] Running in Expo Go on Android - Remote push notifications disabled (SDK 53 limitation)');
     isNotificationsSupported = false;
   } else if (Platform.OS !== 'web') {
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: true,
-        shouldShowBanner: true,
-        shouldShowList: true,
-      }),
-    });
+    Notifications = require('expo-notifications');
+    Device = require('expo-device');
+    
+    if (Notifications) {
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: true,
+          shouldShowBanner: true,
+          shouldShowList: true,
+        }),
+      });
+    }
   } else {
     isNotificationsSupported = false;
   }
 } catch (error) {
-  console.warn('[PushNotifications] Failed to initialize:', error);
   isNotificationsSupported = false;
 }
 
