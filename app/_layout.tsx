@@ -4,7 +4,6 @@ import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { trpc, trpcClient } from "@/lib/trpc";
 import { AuthProvider } from "@/hooks/auth-store";
 import { BackendProvider } from "@/hooks/backend-store";
@@ -164,11 +163,10 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <ErrorBoundary>
-        <trpc.Provider client={trpcClient} queryClient={queryClient}>
-          <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
+    <ErrorBoundary>
+      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
           <AuthProvider>
             <BackendProvider>
               <NotificationProvider>
@@ -220,11 +218,10 @@ export default function RootLayout() {
               </NotificationProvider>
             </BackendProvider>
           </AuthProvider>
-          </ThemeProvider>
-          </QueryClientProvider>
-        </trpc.Provider>
-      </ErrorBoundary>
-    </SafeAreaProvider>
+        </ThemeProvider>
+        </QueryClientProvider>
+      </trpc.Provider>
+    </ErrorBoundary>
   );
 }
 

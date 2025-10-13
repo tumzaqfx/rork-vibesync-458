@@ -70,16 +70,6 @@ export default function VoiceStatusPlayer({
   const playAudio = async () => {
     try {
       if (!soundRef.current) {
-        if (!voiceContent.uri || voiceContent.uri.includes('example.com')) {
-          console.log('[VoiceStatusPlayer] Demo mode - no valid audio URI');
-          setIsPlaying(true);
-          setTimeout(() => {
-            setIsPlaying(false);
-            onPlaybackComplete?.();
-          }, voiceContent.duration * 1000);
-          return;
-        }
-        
         const { sound } = await Audio.Sound.createAsync(
           { uri: voiceContent.uri },
           { shouldPlay: true },
@@ -92,11 +82,6 @@ export default function VoiceStatusPlayer({
       setIsPlaying(true);
     } catch (error) {
       console.error('[VoiceStatusPlayer] Play error:', error);
-      setIsPlaying(true);
-      setTimeout(() => {
-        setIsPlaying(false);
-        onPlaybackComplete?.();
-      }, voiceContent.duration * 1000);
     }
   };
 
