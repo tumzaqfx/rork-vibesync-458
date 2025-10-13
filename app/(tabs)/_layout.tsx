@@ -1,9 +1,12 @@
 import { Tabs, router } from "expo-router";
 import React, { useCallback } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, InteractionManager } from "react-native";
-import { Bell, Home, Search, User, MessageCircle } from "lucide-react-native";
-import { VibezIcon } from '@/components/ui/VibezIcon';
-import { SpillsIcon } from '@/components/ui/SpillsIcon';
+import { Bell, MessageCircle } from "lucide-react-native";
+import { HomeIcon } from '@/components/ui/icons/HomeIcon';
+import { DiscoverIcon } from '@/components/ui/icons/DiscoverIcon';
+import { ProfileIcon } from '@/components/ui/icons/ProfileIcon';
+import { VibezIconNew } from '@/components/ui/icons/VibezIconNew';
+import { SpillsIconNew } from '@/components/ui/icons/SpillsIconNew';
 import { AnimatedLogo } from '@/components/ui/AnimatedLogo';
 import { useNotifications } from '@/hooks/notification-store';
 import { useMessaging } from '@/hooks/messaging-store';
@@ -48,7 +51,9 @@ export default function TabLayout() {
         options={{
           title: "VibeSync",
           tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <HomeIcon size={size} color={color} filled={focused} />
+          ),
           headerTitle: () => (
             <AnimatedLogo size="small" />
           ),
@@ -89,7 +94,9 @@ export default function TabLayout() {
         options={{
           title: "Discover",
           tabBarLabel: "Discover",
-          tabBarIcon: ({ color, size }) => <Search size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <DiscoverIcon size={size} color={color} filled={focused} />
+          ),
         }}
       />
       <Tabs.Screen
@@ -97,7 +104,9 @@ export default function TabLayout() {
         options={{
           title: "Vibez",
           tabBarLabel: "Vibez",
-          tabBarIcon: ({ color, size }) => <VibezIcon size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <VibezIconNew size={size} color={color} filled={focused} />
+          ),
           headerShown: false,
         }}
       />
@@ -107,8 +116,8 @@ export default function TabLayout() {
           title: "Spills",
           tabBarLabel: "Spills",
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <SpillsIcon size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <SpillsIconNew size={size} color={color} filled={focused} />
           ),
         }}
       />
@@ -117,7 +126,9 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <ProfileIcon size={size} color={color} filled={focused} />
+          ),
         }}
       />
       </Tabs>

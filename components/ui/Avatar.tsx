@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, View, ViewStyle, TouchableOpacity } from 'react-native';
-import { Image } from 'expo-image';
 import { Colors } from '@/constants/colors';
 import { User } from 'lucide-react-native';
+import { OptimizedImage } from '@/utils/optimized-image';
 
 interface AvatarProps {
   uri?: string | null;
@@ -15,7 +15,7 @@ interface AvatarProps {
   onPress?: () => void;
 }
 
-export const Avatar: React.FC<AvatarProps> = ({
+const AvatarComponent: React.FC<AvatarProps> = ({
   uri,
   source,
   size = 40,
@@ -43,8 +43,10 @@ export const Avatar: React.FC<AvatarProps> = ({
       testID={testID}
     >
       {imageUri ? (
-        <Image
-          source={{ uri: imageUri }}
+        <OptimizedImage
+          uri={imageUri}
+          width={size - borderWidth * 2}
+          height={size - borderWidth * 2}
           style={[
             styles.image,
             {
@@ -53,8 +55,8 @@ export const Avatar: React.FC<AvatarProps> = ({
               borderRadius: (size - borderWidth * 2) / 2,
             },
           ]}
-          contentFit="cover"
-          transition={200}
+          priority="high"
+          cachePolicy="memory-disk"
         />
       ) : (
         <View
@@ -83,6 +85,15 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   return content;
 };
+
+export const Avatar = memo(AvatarComponent, (prev, next) => {
+  return (
+    prev.uri === next.uri &&
+    prev.source === next.source &&
+    prev.size === next.size &&
+    prev.borderWidth === next.borderWidth
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
