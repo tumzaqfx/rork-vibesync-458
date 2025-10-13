@@ -16,7 +16,7 @@ interface VibePostCardProps {
   autoplay?: boolean;
 }
 
-const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
+export const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
   const { theme } = useTheme();
   const { likeVibePost, repostVibePost, incrementViews } = useVibePosts();
   const videoRef = useRef<Video>(null);
@@ -248,8 +248,6 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
 });
 
 VibePostCard.displayName = 'VibePostCard';
-
-export default VibePostCard;
 
 const styles = StyleSheet.create({
   container: {
