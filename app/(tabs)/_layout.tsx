@@ -27,7 +27,7 @@ export default function TabLayout() {
 
   const handleMessagePress = useCallback(() => {
     InteractionManager.runAfterInteractions(() => {
-      router.push('/messages');
+      router.push('/inbox');
     });
   }, []);
 
