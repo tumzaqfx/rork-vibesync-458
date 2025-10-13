@@ -1,89 +1,53 @@
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║              🚀 VIBESYNC - QUICK START GUIDE 🚀             ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════════════════╗
+║                  🎵 VIBESYNC - START HERE 🎵              ║
+╚═══════════════════════════════════════════════════════════╝
 
-📋 SIMPLE 2-STEP STARTUP:
+📋 QUICK START (Copy & Paste):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1️⃣  Make scripts executable:
-   chmod +x START_ALL.sh
+chmod +x START.sh && ./START.sh
 
-2️⃣  Start everything:
-   ./START_ALL.sh
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 ALTERNATIVE METHODS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📱 WHAT HAPPENS:
+Method 1 - Simple Script:
+  chmod +x SIMPLE_START.sh && ./SIMPLE_START.sh
 
-✅ Installs better-sqlite3 (if needed)
-✅ Creates SQLite database automatically
-✅ Starts backend server on port 3000
-✅ Starts Expo frontend
-✅ Opens in web browser (press 'w')
+Method 2 - Manual (2 terminals):
+  Terminal 1: bun run backend/server.ts
+  Terminal 2: npx expo start
 
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🔐 DEMO LOGIN CREDENTIALS:
-
-Email:    test@example.com
-Password: Test123!
-
-Note: First time? Register a new account!
+Method 3 - Kill port first:
+  lsof -ti:3000 | xargs kill -9
+  bun run backend/server.ts
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  TROUBLESHOOTING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🛠️  ALTERNATIVE COMMANDS:
+Problem: "Port 3000 is already in use"
+Solution: lsof -ti:3000 | xargs kill -9
 
-Backend only:
-   chmod +x START_BACKEND.sh
-   ./START_BACKEND.sh
+Problem: "Script not found 'rork'"
+Solution: Use the scripts above (they don't use 'rork')
 
-Frontend only:
-   chmod +x START_FRONTEND.sh
-   ./START_FRONTEND.sh
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🔍 TROUBLESHOOTING:
-
-❌ Port 3000 in use?
-   pkill -f "bun.*backend/server.ts"
-
-❌ Database errors?
-   rm vibesync.db
-   ./START_ALL.sh
-
-❌ Module not found?
-   bun install
-   ./START_ALL.sh
+Problem: Backend won't start
+Solution: Check if port 3000 is free first
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📱 AFTER STARTING:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📚 FEATURES:
-
-✨ Home Feed with Posts
-✨ Stories & Live Streams
-✨ Direct Messaging
-✨ Notifications
-✨ User Profiles
-✨ Discover Page
-✨ VibePosts (Video Feed)
-✨ Creative Studio
-✨ Trending Content
+✅ Backend will run on: http://localhost:3000
+✅ Frontend will show QR code to scan with Expo Go app
+✅ Or press 'w' to open in web browser
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 TEST LOGIN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🎯 READY TO GO!
-
-Just run: ./START_ALL.sh
-
-╔═══════════════════════════════════════════════════════���══════╗
-║                    Happy Coding! 🎉                          ║
-╚══════════════════════════════════════════════════════════════╝
+Email: test@example.com
+Password: password123
