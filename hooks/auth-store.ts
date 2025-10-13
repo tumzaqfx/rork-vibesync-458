@@ -162,7 +162,10 @@ export const [AuthProvider, useAuth] = createContextHook(() => {
           
           const isNetworkError = backendError.message?.includes('fetch') || 
                                  backendError.message?.includes('Network') ||
-                                 backendError.message?.includes('Failed to fetch');
+                                 backendError.message?.includes('Failed to fetch') ||
+                                 backendError.message?.includes('Cannot connect') ||
+                                 backendError.message?.includes('not responding') ||
+                                 backendError.message?.includes('JSON Parse');
           
           if (isNetworkError) {
             console.warn('[Auth] Backend not available, attempting demo mode');

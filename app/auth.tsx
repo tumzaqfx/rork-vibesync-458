@@ -52,8 +52,14 @@ export default function AuthScreen() {
         errorMessage = 'Cannot connect to backend. Please start the backend server.';
       } else if (err.message?.includes('fetch') || err.message?.includes('Network')) {
         errorMessage = 'Network error. Backend may not be running. For demo mode, use: test@example.com / Test123!';
-      } else if (err.message?.includes('JSON')) {
-        errorMessage = 'Backend error. Please ensure backend is running properly.';
+      } else if (err.message?.includes('JSON Parse')) {
+        errorMessage = 'Backend is returning invalid data. Please restart the backend server. For demo mode, use: test@example.com / Test123!';
+      } else if (err.message?.includes('Backend is not available')) {
+        errorMessage = err.message;
+      } else if (err.message?.includes('Cannot connect')) {
+        errorMessage = 'Cannot connect to backend. For demo mode, use: test@example.com / Test123!';
+      } else if (err.message?.includes('not responding')) {
+        errorMessage = 'Backend is not responding. For demo mode, use: test@example.com / Test123!';
       } else if (err.message?.includes('Invalid credentials')) {
         errorMessage = 'Invalid email or password. To create an account, click Sign Up below.';
       } else if (err.message) {

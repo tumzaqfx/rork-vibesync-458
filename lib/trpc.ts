@@ -59,12 +59,40 @@ const createTRPCClientInstance = () => {
           
           return headers;
         },
-        fetch(url, options) {
+        async fetch(url, options) {
           console.log('[tRPC] Fetching:', url);
-          return fetch(url, {
-            ...options,
-            credentials: 'include',
-          });
+          try {
+            const response = await fetch(url, {
+              ...options,
+              credentials: 'include',
+            });
+            
+            const contentType = response.headers.get('content-type');
+            if (!contentType?.includes('application/json')) {
+              console.error('[tRPC] ❌ Backend returned non-JSON response:', contentType);
+              console.error('[tRPC] Response status:', response.status);
+              
+              const text = await response.text();
+              console.error('[tRPC] Response preview:', text.substring(0, 200));
+              
+              throw new Error(
+                'Backend is not responding correctly. ' +
+                'Please ensure the backend server is running on ' + baseUrl
+              );
+            }
+            
+            return response;
+          } catch (error: any) {
+            if (error.message?.includes('Backend is not responding')) {
+              throw error;
+            }
+            
+            console.error('[tRPC] ❌ Network error:', error.message);
+            throw new Error(
+              'Cannot connect to backend server. ' +
+              'Please start the backend with: bun backend/server.ts'
+            );
+          }
         },
       }),
     ],
