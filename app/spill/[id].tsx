@@ -24,7 +24,7 @@ export default function SpillRoomScreen() {
     return () => {
       leaveSpill();
     };
-  }, [id, joinSpill, leaveSpill]);
+  }, [id]);
 
   const handleLeave = () => {
     leaveSpill();

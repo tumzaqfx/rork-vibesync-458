@@ -13,40 +13,45 @@ export const [SpillProvider, useSpill] = createContextHook(() => {
 
   const joinSpill = useCallback((spillId: string) => {
     console.log('[Spill] Joining spill:', spillId);
-    const spill = activeSpills.find(s => s.id === spillId);
-    if (spill) {
-      setCurrentSpill(spill);
-      setIsInSpill(true);
-      setIsMuted(true);
-      setHasRequestedMic(false);
-
-      setActiveSpills(prev => prev.map(s => 
+    setActiveSpills(prev => {
+      const spill = prev.find(s => s.id === spillId);
+      if (spill) {
+        setCurrentSpill(spill);
+        setIsInSpill(true);
+        setIsMuted(true);
+        setHasRequestedMic(false);
+      }
+      return prev.map(s => 
         s.id === spillId 
           ? { ...s, listenerCount: s.listenerCount + 1 }
           : s
-      ));
-    }
-  }, [activeSpills]);
+      );
+    });
+  }, []);
 
   const leaveSpill = useCallback(() => {
     console.log('[Spill] Leaving spill');
-    if (currentSpill) {
-      setActiveSpills(prev => prev.map(s => 
-        s.id === currentSpill.id 
-          ? { ...s, listenerCount: Math.max(0, s.listenerCount - 1) }
-          : s
-      ));
-    }
-    setCurrentSpill(null);
+    setCurrentSpill(prev => {
+      if (prev) {
+        setActiveSpills(prevSpills => prevSpills.map(s => 
+          s.id === prev.id 
+            ? { ...s, listenerCount: Math.max(0, s.listenerCount - 1) }
+            : s
+        ));
+      }
+      return null;
+    });
     setIsInSpill(false);
     setIsMuted(true);
     setHasRequestedMic(false);
-  }, [currentSpill]);
+  }, []);
 
   const toggleMute = useCallback(() => {
-    setIsMuted(prev => !prev);
-    console.log('[Spill] Toggled mute:', !isMuted);
-  }, [isMuted]);
+    setIsMuted(prev => {
+      console.log('[Spill] Toggled mute:', !prev);
+      return !prev;
+    });
+  }, []);
 
   const requestMic = useCallback(() => {
     setHasRequestedMic(true);
@@ -54,8 +59,6 @@ export const [SpillProvider, useSpill] = createContextHook(() => {
   }, []);
 
   const sendReaction = useCallback((emoji: string) => {
-    if (!currentSpill) return;
-
     const reaction: SpillReaction = {
       id: `reaction-${Date.now()}`,
       userId: 'current-user',
@@ -63,17 +66,17 @@ export const [SpillProvider, useSpill] = createContextHook(() => {
       timestamp: new Date(),
     };
 
-    setCurrentSpill(prev => prev ? {
-      ...prev,
-      reactions: [...prev.reactions, reaction],
-    } : null);
-
-    console.log('[Spill] Sent reaction:', emoji);
-  }, [currentSpill]);
+    setCurrentSpill(prev => {
+      if (!prev) return null;
+      console.log('[Spill] Sent reaction:', emoji);
+      return {
+        ...prev,
+        reactions: [...prev.reactions, reaction],
+      };
+    });
+  }, []);
 
   const sendComment = useCallback((text: string) => {
-    if (!currentSpill) return;
-
     const comment: SpillComment = {
       id: `comment-${Date.now()}`,
       userId: 'current-user',
@@ -82,13 +85,15 @@ export const [SpillProvider, useSpill] = createContextHook(() => {
       timestamp: new Date(),
     };
 
-    setCurrentSpill(prev => prev ? {
-      ...prev,
-      comments: [...prev.comments, comment],
-    } : null);
-
-    console.log('[Spill] Sent comment:', text);
-  }, [currentSpill]);
+    setCurrentSpill(prev => {
+      if (!prev) return null;
+      console.log('[Spill] Sent comment:', text);
+      return {
+        ...prev,
+        comments: [...prev.comments, comment],
+      };
+    });
+  }, []);
 
   const startSpill = useCallback((topicId: string, topicName: string, topicType: 'hashtag' | 'name') => {
     console.log('[Spill] Starting new spill:', topicName);
@@ -122,20 +127,23 @@ export const [SpillProvider, useSpill] = createContextHook(() => {
   }, []);
 
   const endSpill = useCallback(() => {
-    if (!currentSpill) return;
-
-    console.log('[Spill] Ending spill:', currentSpill.id);
-
-    setActiveSpills(prev => prev.map(s => 
-      s.id === currentSpill.id 
-        ? { ...s, isLive: false }
-        : s
-    ));
-
-    setCurrentSpill(null);
+    setCurrentSpill(prev => {
+      if (!prev) return null;
+      
+      console.log('[Spill] Ending spill:', prev.id);
+      
+      setActiveSpills(prevSpills => prevSpills.map(s => 
+        s.id === prev.id 
+          ? { ...s, isLive: false }
+          : s
+      ));
+      
+      return null;
+    });
+    
     setIsInSpill(false);
     setIsMuted(true);
-  }, [currentSpill]);
+  }, []);
 
   const scheduleSpill = useCallback((topicId: string, topicName: string, scheduledFor: Date) => {
     const scheduled: ScheduledSpill = {
@@ -173,7 +181,7 @@ export const [SpillProvider, useSpill] = createContextHook(() => {
     const interval = setInterval(() => {
       setActiveSpills(prev => prev.map(spill => ({
         ...spill,
-        listenerCount: spill.listenerCount + Math.floor(Math.random() * 10) - 5,
+        listenerCount: Math.max(0, spill.listenerCount + Math.floor(Math.random() * 10) - 5),
       })));
     }, 10000);
 
