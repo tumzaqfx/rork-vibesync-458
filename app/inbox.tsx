@@ -458,20 +458,21 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingTop: 12,
+    paddingBottom: 12,
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    height: 45,
     gap: 8,
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
-    paddingVertical: 4,
+    paddingVertical: 0,
   },
   requestsBanner: {
     flexDirection: 'row',

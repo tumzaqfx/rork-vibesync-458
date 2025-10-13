@@ -288,7 +288,7 @@ export default function LiveRoomScreen() {
               onPress={() => handleReaction('heart')}
               testID="like-button"
             >
-              <Heart size={32} color="#FFFFFF" fill="#FFFFFF" />
+              <Heart size={26} color="#FFFFFF" fill="#FFFFFF" style={styles.actionIcon} />
               <Text style={styles.actionCount}>{session.likeCount}</Text>
             </TouchableOpacity>
 
@@ -297,7 +297,7 @@ export default function LiveRoomScreen() {
               onPress={() => console.log('Show viewers')}
               testID="viewers-button"
             >
-              <Users size={32} color="#FFFFFF" />
+              <Users size={26} color="#FFFFFF" style={styles.actionIcon} />
               <Text style={styles.actionCount}>{session.viewerCount}</Text>
             </TouchableOpacity>
 
@@ -306,7 +306,7 @@ export default function LiveRoomScreen() {
               onPress={() => setShowGiftPicker(true)}
               testID="gift-button"
             >
-              <Gift size={32} color="#FFFFFF" />
+              <Gift size={26} color="#FFFFFF" style={styles.actionIcon} />
             </TouchableOpacity>
 
             {isHost && (
@@ -315,7 +315,7 @@ export default function LiveRoomScreen() {
                 onPress={() => console.log('Invite co-host')}
                 testID="invite-button"
               >
-                <UserPlus size={32} color="#FFFFFF" />
+                <UserPlus size={26} color="#FFFFFF" style={styles.actionIcon} />
               </TouchableOpacity>
             )}
           </View>
@@ -706,20 +706,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingBottom: 36,
     gap: 16,
   },
   sideActions: {
-    gap: 16,
+    gap: 18,
   },
   actionButton: {
     alignItems: 'center',
     gap: 4,
   },
+  actionIcon: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
   actionCount: {
     fontSize: 12,
     fontWeight: '600' as const,
     color: '#FFFFFF',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   commentInputContainer: {
     flex: 1,
