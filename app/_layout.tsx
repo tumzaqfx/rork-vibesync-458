@@ -100,6 +100,7 @@ function RootLayoutNav() {
       <Stack.Screen name="dm-inbox" options={{ headerShown: false }} />
       <Stack.Screen name="messages-settings" options={{ headerShown: false }} />
       <Stack.Screen name="spill/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="spill/start" options={{ headerShown: false, presentation: 'modal' }} />
       <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
     </Stack>
   );

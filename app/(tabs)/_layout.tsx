@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, InteractionManager } from "react-native";
 import { Bell, Home, Search, User, MessageCircle } from "lucide-react-native";
 import { VibezIcon } from '@/components/ui/VibezIcon';
-import { CreativeStudioIcon } from '@/components/ui/CreativeStudioIcon';
+import { SpillsIcon } from '@/components/ui/SpillsIcon';
 import { AnimatedLogo } from '@/components/ui/AnimatedLogo';
 import { useNotifications } from '@/hooks/notification-store';
 import { useMessaging } from '@/hooks/messaging-store';
@@ -102,13 +102,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="create"
+        name="spills"
         options={{
-          title: "Creative Studio",
-          tabBarLabel: "Creative Studio",
+          title: "Spills",
+          tabBarLabel: "Spills",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <CreativeStudioIcon size={size} color={color} />
+            <SpillsIcon size={size} color={color} />
           ),
         }}
       />
