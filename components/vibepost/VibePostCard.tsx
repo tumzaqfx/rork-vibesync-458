@@ -15,7 +15,7 @@ interface VibePostCardProps {
 
 
 
-const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
+export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
   const { theme } = useTheme();
   const { likeVibePost, repostVibePost } = useVibePosts();
 
@@ -191,8 +191,6 @@ const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
 });
 
 VibePostCard.displayName = 'VibePostCard';
-
-export default VibePostCard;
 
 const styles = StyleSheet.create({
   container: {

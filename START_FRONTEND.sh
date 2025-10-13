@@ -1,28 +1,27 @@
 #!/bin/bash
 
+echo ""
+echo "🚀 Starting VibeSync Frontend"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📱 Starting VibeSync Frontend"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━━━━"
 echo ""
 
-cd /home/user/rork-app
+# Check if backend is running
+if ! curl -s http://localhost:3000/health > /dev/null 2>&1; then
+    echo "⚠️  Backend is not running!"
+    echo ""
+    echo "Please start the backend first:"
+    echo "  ./START_BACKEND_FIRST.sh"
+    echo ""
+    echo "Or in a new terminal:"
+    echo "  bun backend/server.ts"
+    echo ""
+    exit 1
+fi
 
-echo "⏳ Waiting for backend to be ready..."
-for i in {1..30}; do
-  if curl -s http://localhost:3000/health > /dev/null 2>&1; then
-    echo "✅ Backend is ready!"
-    break
-  fi
-  if [ $i -eq 30 ]; then
-    echo "⚠️  Backend not responding, but starting frontend anyway..."
-  fi
-  sleep 1
-done
-
+echo "✅ Backend is running"
 echo ""
-echo "📱 Starting Expo..."
-echo ""
-echo "Press 'w' to open in web browser"
+echo "Starting frontend..."
 echo ""
 
-npx expo start --web
+# Start the frontend
+bun start
