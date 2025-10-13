@@ -43,7 +43,7 @@ export const mockStatuses: Status[] = [
     verified: true,
     type: 'voice',
     voiceContent: {
-      uri: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav',
+      uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
       duration: 45,
       waveform: [0.2, 0.5, 0.8, 0.6, 0.9, 0.4, 0.7, 0.3, 0.6, 0.8, 0.5, 0.9, 0.7, 0.4, 0.6, 0.8, 0.3, 0.5, 0.7, 0.9],
       gradient: ['#667eea', '#764ba2'],
@@ -161,7 +161,7 @@ export const mockStatuses: Status[] = [
     verified: true,
     type: 'voice',
     voiceContent: {
-      uri: 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther30.wav',
+      uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
       duration: 30,
       waveform: [0.3, 0.4, 0.5, 0.6, 0.5, 0.4, 0.5, 0.6, 0.5, 0.4, 0.5, 0.6, 0.5, 0.4, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6],
       gradient: ['#43e97b', '#38f9d7'],
@@ -279,7 +279,7 @@ export const mockStatuses: Status[] = [
     verified: false,
     type: 'voice',
     voiceContent: {
-      uri: 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand3.wav',
+      uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       duration: 35,
       waveform: [0.4, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7],
       gradient: ['#f093fb', '#f5576c'],

@@ -11,7 +11,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: true,
     caption: 'Just had the most amazing coffee experience! Listen to my thoughts on this new blend ☕🎙️',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
       duration: 45,
       waveform: [0.3, 0.5, 0.7, 0.6, 0.8, 0.9, 0.7, 0.5, 0.6, 0.8, 0.7, 0.5, 0.4, 0.6, 0.7, 0.8, 0.6, 0.5, 0.7, 0.9, 0.8, 0.6, 0.5, 0.7, 0.8, 0.6, 0.4, 0.5, 0.6, 0.7],
     },
@@ -41,7 +41,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: true,
     caption: 'Quick fitness tip for beginners! 💪 This changed my entire workout routine',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther30.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
       duration: 58,
       waveform: [0.4, 0.6, 0.5, 0.7, 0.8, 0.6, 0.5, 0.7, 0.9, 0.8, 0.7, 0.6, 0.8, 0.9, 0.7, 0.5, 0.6, 0.8, 0.7, 0.6, 0.5, 0.7, 0.8, 0.9, 0.7, 0.6, 0.5, 0.7, 0.8, 0.6],
     },
@@ -71,7 +71,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: true,
     caption: 'Travel story from my recent trip to the Taj Mahal! 🌅 You won\'t believe what happened',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand3.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       duration: 32,
       waveform: [0.5, 0.6, 0.7, 0.8, 0.6, 0.5, 0.7, 0.8, 0.6, 0.5, 0.6, 0.7, 0.8, 0.7, 0.6, 0.5, 0.7, 0.8, 0.6, 0.5, 0.6, 0.7, 0.5, 0.6, 0.7, 0.8, 0.6, 0.5, 0.6, 0.7],
     },
@@ -101,7 +101,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: false,
     caption: 'Behind the scenes of my new beat! 🎵 Here\'s how I created this sound',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/StarWars3.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
       duration: 40,
       waveform: [0.6, 0.7, 0.8, 0.9, 0.7, 0.6, 0.8, 0.9, 0.7, 0.6, 0.7, 0.8, 0.6, 0.5, 0.7, 0.8, 0.9, 0.7, 0.6, 0.8, 0.7, 0.6, 0.5, 0.7, 0.8, 0.6, 0.5, 0.6, 0.7, 0.8],
     },
@@ -131,7 +131,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: true,
     caption: 'My skincare routine explained! 💄 These products changed my skin',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/gettysburg10.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
       duration: 52,
       waveform: [0.4, 0.5, 0.6, 0.7, 0.8, 0.7, 0.6, 0.5, 0.7, 0.8, 0.9, 0.7, 0.6, 0.8, 0.7, 0.6, 0.5, 0.7, 0.8, 0.6, 0.5, 0.6, 0.7, 0.8, 0.9, 0.7, 0.6, 0.5, 0.6, 0.7],
     },
@@ -161,7 +161,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: true,
     caption: 'Meditation guide for beginners 🧘‍♀️ Find your inner peace',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/taunt.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
       duration: 48,
       waveform: [0.3, 0.4, 0.5, 0.6, 0.5, 0.4, 0.5, 0.6, 0.5, 0.4, 0.5, 0.6, 0.5, 0.4, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6, 0.5, 0.4, 0.3, 0.5, 0.6, 0.5, 0.4, 0.5, 0.6, 0.5],
     },
@@ -191,7 +191,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: true,
     caption: 'Fashion tips for mixing traditional and modern styles 👗✨',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
       duration: 55,
       waveform: [0.5, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.9, 0.8, 0.7, 0.8, 0.7, 0.6, 0.5, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7],
     },
@@ -221,7 +221,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: true,
     caption: 'Match analysis and predictions! ⚽ Who do you think will win?',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther30.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
       duration: 62,
       waveform: [0.6, 0.7, 0.8, 0.9, 0.8, 0.7, 0.8, 0.9, 0.8, 0.7, 0.8, 0.9, 0.8, 0.7, 0.8, 0.9, 0.8, 0.7, 0.8, 0.9, 0.8, 0.7, 0.6, 0.8, 0.9, 0.8, 0.7, 0.8, 0.9, 0.8],
     },
@@ -251,7 +251,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: false,
     caption: 'Cooking tips for perfect dim sum! 🥟 Secret techniques revealed',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand3.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       duration: 44,
       waveform: [0.4, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.6, 0.5, 0.4, 0.6, 0.7, 0.6, 0.5, 0.6, 0.7, 0.6],
     },
@@ -281,7 +281,7 @@ export const mockVoicePosts: VoicePost[] = [
     isVerified: false,
     caption: 'Coding tips for beginners! 👨‍💻 This will save you hours of debugging',
     voiceNote: {
-      url: 'https://www2.cs.uic.edu/~i101/SoundFiles/StarWars3.wav',
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
       duration: 38,
       waveform: [0.5, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7, 0.6, 0.5, 0.7, 0.8, 0.7, 0.6, 0.7, 0.8, 0.7],
     },

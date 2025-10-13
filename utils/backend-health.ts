@@ -2,30 +2,23 @@ import { Platform } from 'react-native';
 
 export class BackendHealthCheck {
   private static getBackendUrl() {
-    const tunnelUrl = process.env.EXPO_PUBLIC_RORK_API_BASE_URL;
-    const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
-    
-    if (tunnelUrl && tunnelUrl.startsWith('https://')) {
-      console.log('[BackendHealth] Using tunnel URL (works on all platforms):', tunnelUrl);
-      return tunnelUrl;
-    }
+    const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:3000';
     
     if (Platform.OS === 'web') {
-      const webUrl = backendUrl || 'http://localhost:3000';
-      console.log('[BackendHealth] Web: Using backend URL:', webUrl);
-      return webUrl;
-    }
-    
-    if (backendUrl) {
-      console.log('[BackendHealth] Native: Using backend URL:', backendUrl);
-      if (backendUrl.includes('localhost')) {
-        console.warn('[BackendHealth] Warning: localhost may not work on physical devices. Use tunnel URL instead.');
-      }
+      console.log('[BackendHealth] Web: Using backend URL:', backendUrl);
       return backendUrl;
     }
     
-    console.error('[BackendHealth] No backend URL configured!');
-    return 'http://localhost:3000';
+    if (backendUrl.includes('localhost')) {
+      const localIp = '10.0.2.2';
+      const port = backendUrl.split(':')[2] || '3000';
+      const androidUrl = `http://${localIp}:${port}`;
+      console.log('[BackendHealth] Native: Converting localhost to Android emulator URL:', androidUrl);
+      return androidUrl;
+    }
+    
+    console.log('[BackendHealth] Native: Using backend URL:', backendUrl);
+    return backendUrl;
   }
   private static backendUrl = BackendHealthCheck.getBackendUrl();
   private static healthCheckCache: { isHealthy: boolean; timestamp: number } | null = null;
