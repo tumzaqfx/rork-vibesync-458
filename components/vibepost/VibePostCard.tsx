@@ -1,6 +1,6 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
-import { Heart, MessageCircle, Repeat2, Share2, Play, Volume2, VolumeX, Maximize2 } from 'lucide-react-native';
+import React, { useCallback, useMemo } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { Heart, MessageCircle, Repeat2, Share2, Play } from 'lucide-react-native';
 import { useTheme } from '@/hooks/theme-store';
 import { VibePost } from '@/types/vibepost';
 import { useVibePosts } from '@/hooks/vibepost-store';
@@ -8,57 +8,16 @@ import { Avatar } from '@/components/ui/Avatar';
 import { VerifiedBadge } from '@/components/ui/VerifiedBadge';
 import { router } from 'expo-router';
 
-let Video: any = null;
-let ResizeMode: any = null;
-
-if (Platform.OS !== 'web') {
-  try {
-    const expoAv = require('expo-av');
-    Video = expoAv.Video;
-    ResizeMode = expoAv.ResizeMode;
-  } catch (e) {
-    console.warn('expo-av not available:', e);
-  }
-}
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-
 interface VibePostCardProps {
   post: VibePost;
   autoplay?: boolean;
 }
 
-const VideoPlayer = ({ videoRef, videoUrl, isMuted, autoplay, onPlaybackStatusUpdate }: any) => {
-  if (!Video || !ResizeMode) {
-    return (
-      <View style={[{ width: '100%', height: '100%', backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: '#FFF' }}>Video player not available</Text>
-      </View>
-    );
-  }
-  
-  return (
-    <Video
-      ref={videoRef}
-      source={{ uri: videoUrl }}
-      style={{ width: '100%', height: '100%' }}
-      resizeMode={ResizeMode.COVER}
-      isLooping
-      isMuted={isMuted}
-      shouldPlay={autoplay}
-      onPlaybackStatusUpdate={onPlaybackStatusUpdate}
-    />
-  );
-};
 
-const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
+
+const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
   const { theme } = useTheme();
-  const { likeVibePost, repostVibePost, incrementViews } = useVibePosts();
-  const videoRef = useRef<any>(null);
-  
-  const [isPlaying, setIsPlaying] = useState(autoplay);
-  const [isMuted, setIsMuted] = useState(true);
-  const [hasStarted, setHasStarted] = useState(false);
+  const { likeVibePost, repostVibePost } = useVibePosts();
 
   const formatCount = (count: number): string => {
     if (count >= 1000000) {
@@ -76,40 +35,7 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handlePlayPause = useCallback(async () => {
-    if (!videoRef.current) return;
-
-    if (Platform.OS === 'web') {
-      const video = videoRef.current as any;
-      if (isPlaying) {
-        video.pause();
-      } else {
-        video.play();
-        if (!hasStarted) {
-          incrementViews(post.id);
-          setHasStarted(true);
-        }
-      }
-      setIsPlaying(!isPlaying);
-    } else {
-      if (isPlaying) {
-        await (videoRef.current as any).pauseAsync();
-      } else {
-        await (videoRef.current as any).playAsync();
-        if (!hasStarted) {
-          incrementViews(post.id);
-          setHasStarted(true);
-        }
-      }
-      setIsPlaying(!isPlaying);
-    }
-  }, [isPlaying, hasStarted, post.id, incrementViews]);
-
-  const handleMuteToggle = useCallback(() => {
-    setIsMuted(!isMuted);
-  }, [isMuted]);
-
-  const handleFullscreen = useCallback(() => {
+  const handlePlayVideo = useCallback(() => {
     router.push(`/vibepost/${post.id}`);
   }, [post.id]);
 
@@ -133,11 +59,7 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
     router.push(`/user/${post.userId}`);
   }, [post.userId]);
 
-  const onPlaybackStatusUpdate = useCallback((status: any) => {
-    if (status.isLoaded) {
-      setIsPlaying(status.isPlaying);
-    }
-  }, []);
+
 
   const videoHeight = useMemo(() => {
     return post.aspectRatio === 'vertical' ? 500 : 
@@ -163,64 +85,27 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
         </TouchableOpacity>
       </View>
 
-      <View style={[styles.videoContainer, { height: videoHeight }]}>
-        {Platform.OS === 'web' ? (
-          <video
-            ref={videoRef as any}
-            src={post.videoUrl}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            loop
-            muted={isMuted}
-            autoPlay={autoplay}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-          />
-        ) : (
-          <VideoPlayer
-            videoRef={videoRef}
-            videoUrl={post.videoUrl}
-            isMuted={isMuted}
-            autoplay={autoplay}
-            onPlaybackStatusUpdate={onPlaybackStatusUpdate}
-          />
-        )}
-
-        <TouchableOpacity 
-          style={styles.videoOverlay}
-          onPress={handlePlayPause}
-          activeOpacity={1}
+      <TouchableOpacity 
+        style={[styles.videoContainer, { height: videoHeight }]}
+        onPress={handlePlayVideo}
+        activeOpacity={0.9}
+      >
+        <ImageBackground
+          source={{ uri: post.thumbnailUrl }}
+          style={styles.thumbnail}
+          resizeMode="cover"
         >
-          {!isPlaying && (
+          <View style={styles.videoOverlay}>
             <View style={styles.playButton}>
               <Play size={48} color="#FFFFFF" fill="#FFFFFF" />
             </View>
-          )}
-        </TouchableOpacity>
+          </View>
 
-        <View style={styles.videoControls}>
-          <TouchableOpacity 
-            style={styles.controlButton}
-            onPress={handleMuteToggle}
-          >
-            {isMuted ? (
-              <VolumeX size={20} color="#FFFFFF" />
-            ) : (
-              <Volume2 size={20} color="#FFFFFF" />
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.controlButton}
-            onPress={handleFullscreen}
-          >
-            <Maximize2 size={20} color="#FFFFFF" />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.durationBadge}>
-          <Text style={styles.durationText}>{formatDuration(post.duration)}</Text>
-        </View>
-      </View>
+          <View style={styles.durationBadge}>
+            <Text style={styles.durationText}>{formatDuration(post.duration)}</Text>
+          </View>
+        </ImageBackground>
+      </TouchableOpacity>
 
       {post.caption && (
         <Text style={[styles.caption, { color: theme.text }]}>
@@ -301,8 +186,7 @@ const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) 
     prevProps.post.likes === nextProps.post.likes &&
     prevProps.post.comments === nextProps.post.comments &&
     prevProps.post.reposts === nextProps.post.reposts &&
-    prevProps.post.views === nextProps.post.views &&
-    prevProps.autoplay === nextProps.autoplay
+    prevProps.post.views === nextProps.post.views
   );
 });
 
@@ -343,10 +227,11 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     width: '100%',
-    position: 'relative',
+    position: 'relative' as const,
     backgroundColor: '#000',
+    overflow: 'hidden',
   },
-  video: {
+  thumbnail: {
     width: '100%',
     height: '100%',
   },
@@ -363,21 +248,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  videoControls: {
-    position: 'absolute',
-    bottom: 12,
-    right: 12,
-    flexDirection: 'row',
-    gap: 8,
-  },
-  controlButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   durationBadge: {
     position: 'absolute',
     bottom: 12,
