@@ -18,7 +18,7 @@ export default function SuggestedSpills() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>💧 Live Spills</Text>
-        <TouchableOpacity onPress={() => router.push('/discover')}>
+        <TouchableOpacity onPress={() => router.push('/(tabs)/spills')}>
           <Text style={styles.seeAll}>See All</Text>
         </TouchableOpacity>
       </View>
