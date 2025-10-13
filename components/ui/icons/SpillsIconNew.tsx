@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { Path, Circle, Ellipse } from 'react-native-svg';
+import Svg, { Path, Circle, G } from 'react-native-svg';
 
 interface SpillsIconNewProps {
   size?: number;
@@ -15,54 +15,50 @@ export const SpillsIconNew: React.FC<SpillsIconNewProps> = ({
   if (filled) {
     return (
       <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <Path
-          d="M12 2C12 2 8 6 8 10C8 12.2091 9.79086 14 12 14C14.2091 14 16 12.2091 16 10C16 6 12 2 12 2Z"
-          fill={color}
-        />
-        <Ellipse
-          cx="12"
-          cy="18"
-          rx="8"
-          ry="4"
-          fill={color}
-          opacity="0.7"
-        />
-        <Circle cx="12" cy="10" r="2" fill="#fff" opacity="0.3" />
-        <Path
-          d="M6 17C6 17 7 15 9 15C11 15 11.5 17 13 17C14.5 17 15 15 17 15C19 15 20 17 20 17"
-          stroke="#fff"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.4"
-        />
+        <G>
+          <Circle cx="12" cy="8" r="6" fill={color} />
+          <Path
+            d="M12 14C12 14 8 15 8 18C8 20 9.5 22 12 22C14.5 22 16 20 16 18C16 15 12 14 12 14Z"
+            fill={color}
+          />
+          <Circle cx="12" cy="8" r="2.5" fill="#fff" opacity="0.4" />
+          <Path
+            d="M8 17L10 16L12 17L14 16L16 17"
+            stroke="#fff"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            opacity="0.5"
+          />
+        </G>
       </Svg>
     );
   }
 
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <Path
-        d="M12 2C12 2 8 6 8 10C8 12.2091 9.79086 14 12 14C14.2091 14 16 12.2091 16 10C16 6 12 2 12 2Z"
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Ellipse
-        cx="12"
-        cy="18"
-        rx="7.5"
-        ry="3.5"
-        stroke={color}
-        strokeWidth="2"
-      />
-      <Path
-        d="M6 17C6 17 7 15.5 9 15.5C11 15.5 11.5 17 13 17C14.5 17 15 15.5 17 15.5C19 15.5 20 17 20 17"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.6"
-      />
+      <G>
+        <Circle 
+          cx="12" 
+          cy="8" 
+          r="5.5" 
+          stroke={color}
+          strokeWidth="2"
+        />
+        <Path
+          d="M12 13.5C12 13.5 8.5 14.5 8.5 17.5C8.5 19.5 10 21.5 12 21.5C14 21.5 15.5 19.5 15.5 17.5C15.5 14.5 12 13.5 12 13.5Z"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M8.5 16.5L10.5 15.5L12 16.5L13.5 15.5L15.5 16.5"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          opacity="0.7"
+        />
+      </G>
     </Svg>
   );
 };
