@@ -67,6 +67,19 @@ const createTRPCClientInstance = () => {
               credentials: 'include',
             });
             
+            if (!response.ok) {
+              console.error('[tRPC] ❌ HTTP Error:', response.status, response.statusText);
+              
+              if (response.status === 404) {
+                const text = await response.text();
+                console.error('[tRPC] 404 Response:', text.substring(0, 200));
+                throw new Error(
+                  'Backend endpoint not found (404). ' +
+                  'Please ensure the backend server is running on ' + baseUrl
+                );
+              }
+            }
+            
             const contentType = response.headers.get('content-type');
             if (!contentType?.includes('application/json')) {
               console.error('[tRPC] ❌ Backend returned non-JSON response:', contentType);
@@ -83,7 +96,7 @@ const createTRPCClientInstance = () => {
             
             return response;
           } catch (error: any) {
-            if (error.message?.includes('Backend is not responding')) {
+            if (error.message?.includes('Backend')) {
               throw error;
             }
             

@@ -237,8 +237,17 @@ export function FloatingActionMenu({ onClose, onPostCreated }: FloatingActionMen
           setIsUploading(false);
           setUploadProgress(0);
           console.error('[FloatingActionMenu] Post creation error:', error);
-          const errorMessage = error?.message || 'Failed to create post. Please try again.';
-          Alert.alert('Error', errorMessage);
+          
+          let errorMessage = 'Failed to create post.';
+          if (error?.message?.includes('Backend endpoint not found')) {
+            errorMessage = 'Backend server is not running. Please start it with: bun backend/server.ts';
+          } else if (error?.message?.includes('Cannot connect')) {
+            errorMessage = 'Cannot connect to backend. Please ensure the server is running.';
+          } else if (error?.message) {
+            errorMessage = error.message;
+          }
+          
+          Alert.alert('Backend Error', errorMessage);
         }
       }
     } catch (error) {
@@ -434,8 +443,17 @@ export function FloatingActionMenu({ onClose, onPostCreated }: FloatingActionMen
       setIsUploading(false);
       setUploadProgress(0);
       console.error('[FloatingActionMenu] Post creation error:', error);
-      const errorMessage = error?.message || 'Failed to create post. Please try again.';
-      Alert.alert('Error', errorMessage);
+      
+      let errorMessage = 'Failed to create post.';
+      if (error?.message?.includes('Backend endpoint not found')) {
+        errorMessage = 'Backend server is not running. Please start it with: bun backend/server.ts';
+      } else if (error?.message?.includes('Cannot connect')) {
+        errorMessage = 'Cannot connect to backend. Please ensure the server is running.';
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+      
+      Alert.alert('Backend Error', errorMessage);
     }
   };
 
