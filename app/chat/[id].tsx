@@ -204,13 +204,12 @@ export default function ChatScreen() {
             { backgroundColor: colors.primary } : 
             { backgroundColor: colors.card }
         ]}>
-          <Text style={[styles.messageText, { color: colors.text }]}>
+          <Text style={[styles.messageText, { color: isMyMessage ? '#FFFFFF' : colors.text }]}>
             {item.content}
           </Text>
           <Text style={[
             styles.messageTime, 
-            { color: isMyMessage ? colors.text : colors.textSecondary },
-            isMyMessage && { opacity: 0.7 }
+            { color: isMyMessage ? 'rgba(255,255,255,0.8)' : colors.textSecondary }
           ]}>
             {formatTime(item.timestamp)}
           </Text>

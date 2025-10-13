@@ -706,11 +706,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     paddingHorizontal: 16,
-    paddingBottom: 36,
+    paddingBottom: 56,
     gap: 16,
   },
   sideActions: {
-    gap: 18,
+    gap: 20,
   },
   actionButton: {
     alignItems: 'center',

@@ -69,7 +69,7 @@ export function MessageBubble({
               />
             )}
             {message.content && (
-              <Text style={[styles.messageText, { color: isMyMessage ? '#fff' : colors.text }]}>
+              <Text style={[styles.messageText, { color: isMyMessage ? '#FFFFFF' : colors.text }]}>
                 {message.content}
               </Text>
             )}
@@ -90,7 +90,7 @@ export function MessageBubble({
               <Text style={styles.videoIcon}>▶️</Text>
             </View>
             {message.content && (
-              <Text style={[styles.messageText, { color: isMyMessage ? '#fff' : colors.text }]}>
+              <Text style={[styles.messageText, { color: isMyMessage ? '#FFFFFF' : colors.text }]}>
                 {message.content}
               </Text>
             )}
@@ -117,7 +117,7 @@ export function MessageBubble({
                 />
               ))}
             </View>
-            <Text style={[styles.voiceDuration, { color: isMyMessage ? '#fff' : colors.text }]}>
+            <Text style={[styles.voiceDuration, { color: isMyMessage ? '#FFFFFF' : colors.text }]}>
               {message.duration || 0}s
             </Text>
           </View>
@@ -144,7 +144,7 @@ export function MessageBubble({
               <Text style={styles.fileIconText}>📎</Text>
             </View>
             <View style={styles.fileInfo}>
-              <Text style={[styles.fileName, { color: isMyMessage ? '#fff' : colors.text }]} numberOfLines={1}>
+              <Text style={[styles.fileName, { color: isMyMessage ? '#FFFFFF' : colors.text }]} numberOfLines={1}>
                 {message.fileName || 'File'}
               </Text>
               {message.fileSize && (
@@ -158,7 +158,7 @@ export function MessageBubble({
 
       default:
         return (
-          <Text style={[styles.messageText, { color: isMyMessage ? '#fff' : colors.text }]}>
+          <Text style={[styles.messageText, { color: isMyMessage ? '#FFFFFF' : colors.text }]}>
             {message.content}
           </Text>
         );
