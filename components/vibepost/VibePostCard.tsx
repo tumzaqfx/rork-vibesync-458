@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { Video, ResizeMode, AVPlaybackStatus } from 'expo-av';
 import { Heart, MessageCircle, Repeat2, Share2, Play, Volume2, VolumeX, Maximize2 } from 'lucide-react-native';
@@ -16,7 +16,7 @@ interface VibePostCardProps {
   autoplay?: boolean;
 }
 
-export default function VibePostCard({ post, autoplay = false }: VibePostCardProps) {
+const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
   const { theme } = useTheme();
   const { likeVibePost, repostVibePost, incrementViews } = useVibePosts();
   const videoRef = useRef<Video>(null);
@@ -90,8 +90,10 @@ export default function VibePostCard({ post, autoplay = false }: VibePostCardPro
     }
   }, []);
 
-  const videoHeight = post.aspectRatio === 'vertical' ? 500 : 
-                      post.aspectRatio === 'horizontal' ? 250 : 350;
+  const videoHeight = useMemo(() => {
+    return post.aspectRatio === 'vertical' ? 500 : 
+           post.aspectRatio === 'horizontal' ? 250 : 350;
+  }, [post.aspectRatio]);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -234,7 +236,20 @@ export default function VibePostCard({ post, autoplay = false }: VibePostCardPro
       </View>
     </View>
   );
-}
+}, (prevProps, nextProps) => {
+  return (
+    prevProps.post.id === nextProps.post.id &&
+    prevProps.post.likes === nextProps.post.likes &&
+    prevProps.post.comments === nextProps.post.comments &&
+    prevProps.post.reposts === nextProps.post.reposts &&
+    prevProps.post.views === nextProps.post.views &&
+    prevProps.autoplay === nextProps.autoplay
+  );
+});
+
+VibePostCard.displayName = 'VibePostCard';
+
+export default VibePostCard;
 
 const styles = StyleSheet.create({
   container: {
