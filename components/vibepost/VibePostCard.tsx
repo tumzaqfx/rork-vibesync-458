@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { Video, ResizeMode, AVPlaybackStatus } from 'expo-av';
 import { Heart, MessageCircle, Repeat2, Share2, Play, Volume2, VolumeX, Maximize2 } from 'lucide-react-native';
 import { useTheme } from '@/hooks/theme-store';
@@ -16,7 +16,7 @@ interface VibePostCardProps {
   autoplay?: boolean;
 }
 
-export const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
+const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCardProps) => {
   const { theme } = useTheme();
   const { likeVibePost, repostVibePost, incrementViews } = useVibePosts();
   const videoRef = useRef<Video>(null);
@@ -44,16 +44,30 @@ export const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCard
   const handlePlayPause = useCallback(async () => {
     if (!videoRef.current) return;
 
-    if (isPlaying) {
-      await videoRef.current.pauseAsync();
-    } else {
-      await videoRef.current.playAsync();
-      if (!hasStarted) {
-        incrementViews(post.id);
-        setHasStarted(true);
+    if (Platform.OS === 'web') {
+      const video = videoRef.current as any;
+      if (isPlaying) {
+        video.pause();
+      } else {
+        video.play();
+        if (!hasStarted) {
+          incrementViews(post.id);
+          setHasStarted(true);
+        }
       }
+      setIsPlaying(!isPlaying);
+    } else {
+      if (isPlaying) {
+        await (videoRef.current as any).pauseAsync();
+      } else {
+        await (videoRef.current as any).playAsync();
+        if (!hasStarted) {
+          incrementViews(post.id);
+          setHasStarted(true);
+        }
+      }
+      setIsPlaying(!isPlaying);
     }
-    setIsPlaying(!isPlaying);
   }, [isPlaying, hasStarted, post.id, incrementViews]);
 
   const handleMuteToggle = useCallback(() => {
@@ -115,16 +129,29 @@ export const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCard
       </View>
 
       <View style={[styles.videoContainer, { height: videoHeight }]}>
-        <Video
-          ref={videoRef}
-          source={{ uri: post.videoUrl }}
-          style={styles.video}
-          resizeMode={ResizeMode.COVER}
-          isLooping
-          isMuted={isMuted}
-          shouldPlay={autoplay}
-          onPlaybackStatusUpdate={onPlaybackStatusUpdate}
-        />
+        {Platform.OS !== 'web' ? (
+          <Video
+            ref={videoRef}
+            source={{ uri: post.videoUrl }}
+            style={styles.video}
+            resizeMode={ResizeMode.COVER}
+            isLooping
+            isMuted={isMuted}
+            shouldPlay={autoplay}
+            onPlaybackStatusUpdate={onPlaybackStatusUpdate}
+          />
+        ) : (
+          <video
+            ref={videoRef as any}
+            src={post.videoUrl}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            loop
+            muted={isMuted}
+            autoPlay={autoplay}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
+        )}
 
         <TouchableOpacity 
           style={styles.videoOverlay}
@@ -249,6 +276,7 @@ export const VibePostCard = React.memo(({ post, autoplay = false }: VibePostCard
 
 VibePostCard.displayName = 'VibePostCard';
 
+export { VibePostCard };
 export default VibePostCard;
 
 const styles = StyleSheet.create({
