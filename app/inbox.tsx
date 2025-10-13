@@ -240,7 +240,7 @@ export default function InboxScreen() {
             <View style={styles.headerRightContainer}>
               <TouchableOpacity 
                 style={styles.headerButton}
-                onPress={() => setShowSettingsModal(true)}
+                onPress={() => router.push('/messages-settings')}
               >
                 <Settings size={24} color={colors.text} />
               </TouchableOpacity>

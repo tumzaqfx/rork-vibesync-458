@@ -272,7 +272,10 @@ export default function ChatScreen() {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.infoBtn}>
+        <TouchableOpacity 
+          style={styles.infoBtn}
+          onPress={() => router.push('/messages-settings')}
+        >
           <Info size={24} color={colors.text} />
         </TouchableOpacity>
       </View>
