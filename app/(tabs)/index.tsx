@@ -24,7 +24,7 @@ import { FloatingActionMenu } from '@/components/home/FloatingActionMenu';
 import { LiveFeedCard } from '@/components/home/LiveFeedCard';
 import SuggestedSpills from '@/components/spill/SuggestedSpills';
 import { trpc } from '@/lib/trpc';
-import { VibePostCard } from '@/components/vibepost/VibePostCard';
+import VibePostCard from '@/components/vibepost/VibePostCard';
 import { useVibePosts } from '@/hooks/vibepost-store';
 import { VibePost } from '@/types/vibepost';
 
