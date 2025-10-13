@@ -4,8 +4,8 @@ import { Heart, MessageCircle, Repeat2, Share2, Play, Volume2, VolumeX, Maximize
 import { useTheme } from '@/hooks/theme-store';
 import { VibePost } from '@/types/vibepost';
 import { useVibePosts } from '@/hooks/vibepost-store';
-import Avatar from '@/components/ui/Avatar';
-import VerifiedBadge from '@/components/ui/VerifiedBadge';
+import { Avatar } from '@/components/ui/Avatar';
+import { VerifiedBadge } from '@/components/ui/VerifiedBadge';
 import { router } from 'expo-router';
 
 let Video: any = null;
