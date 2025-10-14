@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { protectedProcedure } from '../../../create-context';
-import { query } from '../../../../db/connection';
+import { query } from '../../../../src/db/connection';
 
 export const markReadProcedure = protectedProcedure
   .input(z.object({ notificationId: z.string() }))

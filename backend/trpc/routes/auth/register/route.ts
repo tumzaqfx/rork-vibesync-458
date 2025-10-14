@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { publicProcedure } from '../../../create-context';
-import { query } from '../../../../db/connection';
+import { query } from '../../../../src/db/connection';
 import { hashPassword, generateToken } from '../../../../utils/auth';
 import { TRPCError } from '@trpc/server';
 

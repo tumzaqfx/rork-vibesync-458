@@ -2,6 +2,7 @@ import { createTRPCReact, createTRPCClient, httpBatchLink } from "@trpc/react-qu
 import type { AppRouter } from "@/backend/trpc/app-router";
 import superjson from "superjson";
 import { Platform } from "react-native";
+import './vibe-sync-frontend-troubleshooting';
 
 export const trpc = createTRPCReact<AppRouter>();
 

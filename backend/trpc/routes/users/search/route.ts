@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { publicProcedure } from '../../../create-context';
-import { query } from '../../../../db/connection';
+import { query } from '../../../../src/db/connection';
 
 export const searchUsersProcedure = publicProcedure
   .input(
