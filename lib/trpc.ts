@@ -2,7 +2,6 @@ import { createTRPCReact, createTRPCClient, httpBatchLink } from "@trpc/react-qu
 import type { AppRouter } from "@/backend/trpc/app-router";
 import superjson from "superjson";
 import { Platform } from "react-native";
-import './vibe-sync-frontend-troubleshooting';
 
 export const trpc = createTRPCReact<AppRouter>();
 
@@ -61,7 +60,6 @@ const createTRPCClientInstance = () => {
           return headers;
         },
         async fetch(url, options) {
-          console.log('[tRPC] Fetching:', url);
           try {
             const response = await fetch(url, {
               ...options,
@@ -101,11 +99,19 @@ const createTRPCClientInstance = () => {
               throw error;
             }
             
-            console.error('[tRPC] ❌ Network error:', error.message);
-            throw new Error(
-              'Cannot connect to backend server. ' +
-              'Please start the backend with: bun backend/server.ts'
-            );
+            const errorMsg = error.message || String(error);
+            console.error('[tRPC] ❌ Network error:', errorMsg);
+            
+            if (errorMsg.includes('Failed to fetch') || 
+                errorMsg.includes('Network request failed') ||
+                errorMsg.includes('fetch failed')) {
+              throw new Error(
+                'Cannot connect to backend server. ' +
+                'Please ensure the backend is running at: ' + baseUrl
+              );
+            }
+            
+            throw error;
           }
         },
       }),

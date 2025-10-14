@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { protectedProcedure } from '../../../create-context';
-import { query } from '../../../../src/db/connection';
+import { query } from '../../../../db/connection';
 
 export const createCommentProcedure = protectedProcedure
   .input(

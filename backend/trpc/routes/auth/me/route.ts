@@ -1,5 +1,5 @@
 import { protectedProcedure } from '../../../create-context';
-import { query } from '../../../../src/db/connection';
+import { query } from '../../../../db/connection';
 
 export const meProcedure = protectedProcedure.query(async ({ ctx }) => {
   const result = await query(

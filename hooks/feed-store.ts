@@ -29,6 +29,11 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
   const [pendingPosts, setPendingPosts] = useState<Post[]>([]);
   const autoRefreshTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const dailyResetTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const stateRef = useRef(state);
+
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   useEffect(() => {
     const loadFeedData = async () => {
@@ -49,7 +54,6 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
   const saveFeedData = useCallback(async (newState: FeedState) => {
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
-      setState(newState);
     } catch (error) {
       console.error('Error saving feed data:', error);
     }
@@ -166,7 +170,7 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
     await new Promise(resolve => setTimeout(resolve, 800));
 
     const newPosts = generateNewPosts();
-    const allPosts = [...newPosts, ...pendingPosts, ...state.posts];
+    const allPosts = [...newPosts, ...pendingPosts, ...stateRef.current.posts];
     const sortedPosts = applyHybridSorting(allPosts);
 
     const newState: FeedState = {
@@ -177,6 +181,7 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
     };
 
     await saveFeedData(newState);
+    setState(newState);
     setPendingPosts([]);
 
     if (showLoading) {
@@ -184,12 +189,12 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
     }
 
     console.log('✅ Feed refreshed successfully');
-  }, [state.posts, pendingPosts, generateNewPosts, applyHybridSorting, saveFeedData]);
+  }, [pendingPosts, generateNewPosts, applyHybridSorting, saveFeedData]);
 
   const loadNewPosts = useCallback(async () => {
     console.log(`📥 Loading ${pendingPosts.length} new posts...`);
     
-    const allPosts = [...pendingPosts, ...state.posts];
+    const allPosts = [...pendingPosts, ...stateRef.current.posts];
     const sortedPosts = applyHybridSorting(allPosts);
 
     const newState: FeedState = {
@@ -200,8 +205,9 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
     };
 
     await saveFeedData(newState);
+    setState(newState);
     setPendingPosts([]);
-  }, [pendingPosts, state.posts, applyHybridSorting, saveFeedData]);
+  }, [pendingPosts, applyHybridSorting, saveFeedData]);
 
   const performDailyReset = useCallback(async () => {
     console.log('🌅 Performing daily feed reset...');
@@ -217,6 +223,7 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
     };
 
     await saveFeedData(newState);
+    setState(newState);
     setPendingPosts([]);
   }, [generateNewPosts, applyHybridSorting, saveFeedData]);
 
@@ -265,15 +272,19 @@ export const [FeedProvider, useFeed] = createContextHook(() => {
       },
     };
 
-    const updatedPosts = [newPost, ...state.posts];
+    const currentState = stateRef.current;
+    const updatedPosts = [newPost, ...currentState.posts];
     const sortedPosts = applyHybridSorting(updatedPosts);
 
-    await saveFeedData({
-      ...state,
+    const newState = {
+      ...currentState,
       posts: sortedPosts,
       lastRefresh: new Date().toISOString(),
-    });
-  }, [user, state, applyHybridSorting, saveFeedData]);
+    };
+
+    await saveFeedData(newState);
+    setState(newState);
+  }, [user, applyHybridSorting, saveFeedData]);
 
   return useMemo(() => ({
     posts: state.posts,

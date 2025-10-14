@@ -22,10 +22,12 @@ export class BackendHealthCheck {
   }
   private static backendUrl = BackendHealthCheck.getBackendUrl();
   private static healthCheckCache: { isHealthy: boolean; timestamp: number } | null = null;
-  private static CACHE_DURATION = 60000;
+  private static CACHE_DURATION = 30000;
+  private static FAILED_CHECK_CACHE_DURATION = 5000;
   private static monitoringInterval: ReturnType<typeof setInterval> | null = null;
   private static healthChangeListeners: ((isHealthy: boolean) => void)[] = [];
   private static lastHealthStatus: boolean | null = null;
+  private static isCheckingHealth = false;
 
   static async isBackendRunning(): Promise<boolean> {
     if (!this.backendUrl) {
@@ -38,13 +40,22 @@ export class BackendHealthCheck {
     }
 
     const now = Date.now();
-    if (
-      this.healthCheckCache &&
-      now - this.healthCheckCache.timestamp < this.CACHE_DURATION
-    ) {
-      console.log('[BackendHealth] Using cached health status:', this.healthCheckCache.isHealthy);
-      return this.healthCheckCache.isHealthy;
+    if (this.healthCheckCache) {
+      const cacheDuration = this.healthCheckCache.isHealthy 
+        ? this.CACHE_DURATION 
+        : this.FAILED_CHECK_CACHE_DURATION;
+      
+      if (now - this.healthCheckCache.timestamp < cacheDuration) {
+        return this.healthCheckCache.isHealthy;
+      }
     }
+
+    if (this.isCheckingHealth) {
+      console.log('[BackendHealth] Health check already in progress, returning cached status');
+      return this.healthCheckCache?.isHealthy ?? false;
+    }
+
+    this.isCheckingHealth = true;
 
     const healthEndpoints = ['/health', '/api/health'];
     
@@ -72,6 +83,7 @@ export class BackendHealthCheck {
           const data = await response.json();
           const isHealthy = data.status === 'ok';
           this.healthCheckCache = { isHealthy, timestamp: now };
+          this.isCheckingHealth = false;
           
           console.log('[BackendHealth] ✅ Backend health check passed:', data);
           return isHealthy;
@@ -94,6 +106,7 @@ export class BackendHealthCheck {
 
     console.log('[BackendHealth] All health check endpoints failed');
     this.healthCheckCache = { isHealthy: false, timestamp: now };
+    this.isCheckingHealth = false;
     return false;
   }
 

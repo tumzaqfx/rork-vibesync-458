@@ -6,9 +6,7 @@
   "scripts": {
     "start": "bun rork start -p 7omq16pafeyh8vedwdyl6 --tunnel",
     "start-web": "bun rork start -p 7omq16pafeyh8vedwdyl6 --web --tunnel",
-    "start-web-dev": "DEBUG=expo* bun rork start -p 7omq16pafeyh8vedwdyl6 --web --tunnel",
-    "dev": "bun run backend/hono.ts",
-    "build": "expo export:web"
+    "start-web-dev": "DEBUG=expo* bun rork start -p 7omq16pafeyh8vedwdyl6 --web --tunnel"
   },
   "dependencies": {
     "@ai-sdk/react": "^2.0.68",
@@ -27,14 +25,13 @@
     "@trpc/react-query": "^11.6.0",
     "@trpc/server": "^11.6.0",
     "@types/bcryptjs": "^3.0.0",
-    "@types/express": "^5.0.3",
     "@types/pg": "^8.15.5",
     "@ungap/structured-clone": "^1.3.0",
     "bcryptjs": "^3.0.2",
     "better-sqlite3": "^12.4.1",
     "eslint": "9.31.0",
     "eslint-config-expo": "9.2.0",
-    "expo": "~53.0.23",
+    "expo": "^53.0.4",
     "expo-auth-session": "~6.2.1",
     "expo-av": "~15.1.7",
     "expo-blur": "~14.1.4",

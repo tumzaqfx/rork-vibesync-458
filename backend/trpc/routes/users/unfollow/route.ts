@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { protectedProcedure } from '../../../create-context';
-import { query } from '../../../../src/db/connection';
+import { query } from '../../../../db/connection';
 
 export const unfollowProcedure = protectedProcedure
   .input(z.object({ userId: z.string() }))

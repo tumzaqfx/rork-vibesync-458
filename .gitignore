@@ -1,18 +1,38 @@
-# IDE config
-.idea/
-.vscode/
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# IDE files
-.idx
-
-# General
-.DS_Store
-
-# Logs
-*.log
-
-# Node dependencies
+# dependencies
 node_modules/
 
-# Environment variables
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
 .env
+
+# typescript
+*.tsbuildinfo
+.vercel
