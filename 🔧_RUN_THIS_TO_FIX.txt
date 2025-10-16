@@ -1,0 +1,57 @@
+═══════════════════════════════════════════════════════════════
+  🔧 FIX FOR: Module not found '@rork/rork-error-boundary'
+═══════════════════════════════════════════════════════════════
+
+✅ THE CODE HAS BEEN FIXED!
+   The problematic imports have been removed from app/_layout.tsx
+
+❌ BUT WEBPACK IS USING OLD CACHED VERSION!
+
+═══════════════════════════════════════════════════════════════
+  📋 COPY AND PASTE THIS COMMAND (Windows):
+═══════════════════════════════════════════════════════════════
+
+FIX_MODULE_ERROR.bat
+
+
+═══════════════════════════════════════════════════════════════
+  📋 OR MANUALLY RUN THESE COMMANDS:
+═══════════════════════════════════════════════════════════════
+
+1. Kill all node processes:
+   taskkill /F /IM node.exe
+
+2. Remove cache folders:
+   rmdir /s /q .expo
+   rmdir /s /q .webpack
+   rmdir /s /q dist
+   rmdir /s /q node_modules\.cache
+
+3. Clean npm cache:
+   npm cache clean --force
+
+4. Start with clean cache:
+   npx expo start -c --web
+
+
+═══════════════════════════════════════════════════════════════
+  🎯 WHAT WAS FIXED:
+═══════════════════════════════════════════════════════════════
+
+✓ Removed @rork/rork-error-boundary import
+✓ Removed @rork/inspector import  
+✓ Removed @rork/safe-insets import
+✓ Using local ErrorBoundary component instead
+✓ Using SafeAreaProvider from react-native-safe-area-context
+
+These were Rork platform internal packages that don't exist
+in your standalone project.
+
+═══════════════════════════════════════════════════════════════
+  ⚠️ WHY THE ERROR STILL SHOWS:
+═══════════════════════════════════════════════════════════════
+
+Webpack is using cached/compiled version of the old code.
+You MUST clear the cache for the fix to take effect.
+
+═══════════════════════════════════════════════════════════════
