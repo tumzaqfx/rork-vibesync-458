@@ -78,6 +78,11 @@ module.exports = async function (env, argv) {
       module: /expo-router/,
       message: /Can't resolve/,
     },
+    {
+      module: /superjson/,
+      message: /Failed to parse source map/,
+    },
+    /Failed to parse source map.*superjson/,
   ];
 
   config.plugins = [
