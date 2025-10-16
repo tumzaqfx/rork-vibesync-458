@@ -35,10 +35,6 @@ export class BackendHealthCheck {
       return false;
     }
 
-    if (this.backendUrl === 'http://localhost:3000') {
-      console.log('[BackendHealth] Using local backend URL:', this.backendUrl);
-    }
-
     const now = Date.now();
     if (this.healthCheckCache) {
       const cacheDuration = this.healthCheckCache.isHealthy 
@@ -46,6 +42,7 @@ export class BackendHealthCheck {
         : this.FAILED_CHECK_CACHE_DURATION;
       
       if (now - this.healthCheckCache.timestamp < cacheDuration) {
+        console.log('[BackendHealth] Using cached health status:', this.healthCheckCache.isHealthy);
         return this.healthCheckCache.isHealthy;
       }
     }

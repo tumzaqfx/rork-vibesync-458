@@ -33,16 +33,14 @@ export default function VoiceStatusPlayer({
   useEffect(() => {
     if (isPaused && isPlaying) {
       pausePlayback();
-    } else if (!isPaused && !isPlaying) {
-      playAudio();
     }
-  }, [isPaused]);
+  }, [isPaused, isPlaying]);
 
   useEffect(() => {
     if (isPlaying) {
       animateWaveform();
     }
-  }, [isPlaying]);
+  }, [isPlaying, waveformAnims]);
 
   const setupAudio = async () => {
     try {
@@ -70,8 +68,10 @@ export default function VoiceStatusPlayer({
   const playAudio = async () => {
     try {
       if (!soundRef.current) {
-        if (!voiceContent.uri || voiceContent.uri.includes('example.com')) {
-          console.log('[VoiceStatusPlayer] Demo mode - no valid audio URI');
+        if (!voiceContent.uri || 
+            voiceContent.uri.includes('example.com') || 
+            voiceContent.uri.includes('uic.edu')) {
+          console.log('[VoiceStatusPlayer] Demo mode - simulating playback (invalid/demo URI)');
           setIsPlaying(true);
           setTimeout(() => {
             setIsPlaying(false);
@@ -90,8 +90,9 @@ export default function VoiceStatusPlayer({
         await soundRef.current.playAsync();
       }
       setIsPlaying(true);
-    } catch (error) {
-      console.error('[VoiceStatusPlayer] Play error:', error);
+    } catch (error: any) {
+      const errorMessage = error?.message || String(error);
+      console.log('[VoiceStatusPlayer] Audio load failed (using demo mode):', errorMessage);
       setIsPlaying(true);
       setTimeout(() => {
         setIsPlaying(false);
