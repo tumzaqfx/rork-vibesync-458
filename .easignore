@@ -1,17 +1,37 @@
+# Dependencies and caches
 node_modules/
+npm-cache/
 .git/
-.gitignore
-*.log
-.expo/
-.expo-shared/
-eas.json
-*.md
-tests/
-docs/
-*.lock
-*.iml
-.vscode/
-.idea/
+
+# Build artifacts
+web-build/
 build/
 dist/
 coverage/
+
+# Development files
+.expo/
+.expo-shared/
+.local/
+.vercel/
+.vscode/
+.idea/
+
+# Documentation and config
+*.md
+docs/
+archive/
+*.lock
+*.iml
+.env*
+.npmrc
+.replit
+*.bat
+Procfile
+railway.json
+vercel.json
+webpack.config.js
+create-test-user.ts
+test-backend.ts
+debug-archive.js
+attached_assets/
