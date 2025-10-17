@@ -40,3 +40,6 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 .vercel
+
+# Archive folder (old documentation)
+archive/
