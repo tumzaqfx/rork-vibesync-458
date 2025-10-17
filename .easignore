@@ -1,0 +1,17 @@
+node_modules/
+.git/
+.gitignore
+*.log
+.expo/
+.expo-shared/
+eas.json
+*.md
+tests/
+docs/
+*.lock
+*.iml
+.vscode/
+.idea/
+build/
+dist/
+coverage/

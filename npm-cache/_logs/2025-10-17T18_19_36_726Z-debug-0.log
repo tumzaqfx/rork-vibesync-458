@@ -7,8 +7,8 @@
 6 silly config:load:file:/usr/local/etc/npmrc
 7 verbose title npm exec expo config --json
 8 verbose argv "exec" "--" "expo" "config" "--json"
-9 verbose logfile logs-max:10 dir:/Users/mathapelomolefe/Downloads/rork-vibesync-458/npm-cache/_logs/2025-10-17T17_25_16_603Z-
-10 verbose logfile /Users/mathapelomolefe/Downloads/rork-vibesync-458/npm-cache/_logs/2025-10-17T17_25_16_603Z-debug-0.log
+9 verbose logfile logs-max:10 dir:/Users/mathapelomolefe/Downloads/rork-vibesync-458/npm-cache/_logs/2025-10-17T18_19_36_726Z-
+10 verbose logfile /Users/mathapelomolefe/Downloads/rork-vibesync-458/npm-cache/_logs/2025-10-17T18_19_36_726Z-debug-0.log
 11 silly logfile start cleaning logs, removing 1 files
 12 silly logfile done cleaning log files
 13 verbose exit 0
