@@ -1,7 +1,8 @@
 import app from './hono';
 import { testConnection, closePool } from './db/connection';
 
-const port = parseInt(process.env.PORT || '3000', 10);
+const port = parseInt(process.env.PORT || '5000', 10);
+const hostname = process.env.HOST || '0.0.0.0';
 
 console.log('');
 console.log('🚀 VibeSync Backend Server');
@@ -31,6 +32,7 @@ async function initializeServer() {
   try {
     const server = Bun.serve({
       port,
+      hostname,
       fetch: app.fetch,
       error(error) {
         console.error('[Server] ❌ Request error:', error.message);
@@ -50,9 +52,9 @@ async function initializeServer() {
     console.log('');
     console.log('✅ Backend server is running!');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log(`🌐 Server URL: http://localhost:${server.port}`);
-    console.log(`🏥 Health Check: http://localhost:${server.port}/health`);
-    console.log(`🔌 API Endpoint: http://localhost:${server.port}/api/trpc`);
+    console.log(`🌐 Server URL: http://${hostname}:${server.port}`);
+    console.log(`🏥 Health Check: http://${hostname}:${server.port}/health`);
+    console.log(`🔌 API Endpoint: http://${hostname}:${server.port}/api/trpc`);
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('');
     console.log('Press Ctrl+C to stop the server');
