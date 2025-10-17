@@ -1,0 +1,29 @@
+{
+  "name": "vibesync-replit-setup",
+  "description": "Unified Replit configuration for VibeSync with a working backend and Expo frontend ready for APK build.",
+  "run": "bash ./run.sh",
+  "install_commands": [
+    "bash ./bootstrap.sh"
+  ],
+  "env_template": {
+    "NODE_ENV": "production",
+    "PORT": "5000",
+    "JWT_SECRET": "",
+    "EXPO_PUBLIC_BACKEND_URL": "https://<your-replit-username>.replit.app",
+    "EXPO_PUBLIC_RORK_API_BASE_URL": "https://<your-replit-username>.replit.app/api",
+    "EXPO_TOKEN": "",
+    "EAS_PROJECT_ID": "",
+    "ANDROID_KEYSTORE_BASE64": ""
+  },
+  "notes": "Replit auto-starts the backend on port 5000. Replace <your-replit-username> with your actual Replit app URL in environment variables. Use EXPO_TOKEN for EAS builds.",
+  "files": {
+    "package.json": "{\n  \"name\": \"vibesync-monorepo\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": {\n    \"install-all\": \"cd app && npm install && cd ../backend && npm install\",\n    \"start\": \"concurrently \\\"npm run start:backend\\\" \\\"npm run start:app\\\"\",\n    \"start:backend\": \"cd backend && ts-node replit-server.ts\",\n    \"start:app\": \"cd app && expo start --tunnel\",\n    \"build:apk\": \"cd app && eas build -p android --non-interactive\",\n    \"lint\": \"eslint . --ext .js,.ts,.tsx --fix || true\"\n  },\n  \"devDependencies\": {\n    \"typescript\": \"^5.0.0\",\n    \"ts-node\": \"^10.9.2\",\n    \"eslint\": \"^8.0.0\",\n    \"concurrently\": \"^7.0.0\"\n  }\n}\n",
+    "bootstrap.sh": "#!/usr/bin/env bash\nset -e\necho '==> Installing dependencies for VibeSync'\nnpm install || true\ncd app && npm install || true\ncd ../backend && npm install || true\ncd ..\necho '==> Setup complete'\n",
+    "run.sh": "#!/usr/bin/env bash\nset -e\n# Load env vars from Replit Secrets if available\nif [ -f .env ]; then\n  export $(grep -v '^#' .env | xargs)\nfi\n# Run backend and app concurrently\necho '==> Starting backend and Expo frontend'\nnpm run start\n",
+    "app/package.json": "{\n  \"name\": \"vibesync-app\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"main\": \"node_modules/expo/AppEntry.js\",\n  \"scripts\": {\n    \"start\": \"expo start\",\n    \"android\": \"expo run:android\",\n    \"build:apk\": \"eas build -p android --profile production --non-interactive\"\n  },\n  \"dependencies\": {\n    \"expo\": \"^50.0.0\",\n    \"react\": \"18.2.0\",\n    \"react-native\": \"0.73.0\",\n    \"expo-router\": \"^3.0.0\"\n  },\n  \"devDependencies\": {\n    \"eas-cli\": \"^3.16.0\",\n    \"eslint\": \"^8.0.0\"\n  }\n}\n",
+    "app/app.json": "{\n  \"expo\": {\n    \"name\": \"VibeSync\",\n    \"slug\": \"vibesync\",\n    \"version\": \"1.0.0\",\n    \"sdkVersion\": \"50.0.0\",\n    \"owner\": \"your-expo-username\",\n    \"android\": {\n      \"package\": \"com.vibesync.app\"\n    },\n    \"extra\": {\n      \"backendUrl\": \"${EXPO_PUBLIC_BACKEND_URL}\",\n      \"rorkApi\": \"${EXPO_PUBLIC_RORK_API_BASE_URL}\"\n    }\n  }\n}\n",
+    "app/eas.json": "{\n  \"build\": {\n    \"production\": {\n      \"workflow\": \"managed\",\n      \"android\": {\n        \"buildType\": \"apk\"\n      }\n    }\n  }\n}\n",
+    "backend/replit-server.ts": "// Replit backend server config\nimport express from 'express';\nimport cors from 'cors';\nimport helmet from 'helmet';\nimport morgan from 'morgan';\n\nconst app = express();\nconst PORT = process.env.PORT || 5000;\n\napp.use(helmet());\napp.use(cors({ origin: '*' })); // tighten before production\napp.use(express.json());\napp.use(morgan('dev'));\n\napp.get('/health', (req, res) => {\n  res.json({ status: 'ok', backend: 'running', timestamp: new Date().toISOString() });\n});\n\napp.listen(PORT, '0.0.0.0', () => {\n  console.log(`✅ Backend running on port ${PORT}`);\n});\n",
+    "github/workflows/eas-build-android.yml": "name: Build VibeSync APK\non:\n  push:\n    branches: [ main ]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Install dependencies\n        run: |\n          npm ci\n          cd app && npm ci\n      - name: Login to Expo\n        env:\n          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}\n        run: npx eas login --non-interactive --token \"$EXPO_TOKEN\"\n      - name: Build Android APK\n        env:\n          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}\n        run: cd app && npx eas build -p android --profile production --non-interactive\n      - name: Upload APK\n        uses: actions/upload-artifact@v4\n        with:\n          name: vibesync-apk\n          path: app/*.apk\n"
+  }
+}
