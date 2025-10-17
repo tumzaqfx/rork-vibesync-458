@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export const LazyPostCard = lazyLoad(() => import('@/components/home/PostCard'));
-export const LazyUserCard = lazyLoad(() => import('@/components/discover/UserCard'));
-export const LazyStoryCircle = lazyLoad(() => import('@/components/home/StoryCircle'));
+export const LazyPostCard = lazyLoad(() => import('@/components/home/PostCard').then(m => ({ default: (m as any).default || m as any })));
+export const LazyUserCard = lazyLoad(() => import('@/components/discover/UserCard').then(m => ({ default: (m as any).default || m as any })));
+export const LazyStoryCircle = lazyLoad(() => import('@/components/home/StoryCircle').then(m => ({ default: (m as any).default || m as any })));

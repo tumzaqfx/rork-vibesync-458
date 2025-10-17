@@ -120,7 +120,7 @@ app.use(
 );
 
 app.options("/api/trpc/*", (c) => {
-  return c.text('', 204);
+  return c.body(null, 204);
 });
 
 app.notFound((c) => {

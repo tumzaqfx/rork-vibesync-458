@@ -20,7 +20,7 @@ try {
     Device = require('expo-device');
     
     if (Notifications) {
-      Notifications.setNotificationHandler({
+      (Notifications as any).setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
           shouldPlaySound: true,
@@ -49,8 +49,8 @@ export interface PushNotificationData {
 
 export class PushNotificationManager {
   private static pushToken: string | null = null;
-  private static notificationListener: Notifications.Subscription | null = null;
-  private static responseListener: Notifications.Subscription | null = null;
+  private static notificationListener: any | null = null;
+  private static responseListener: any | null = null;
 
   static async initialize(): Promise<string | null> {
     try {
@@ -109,11 +109,11 @@ export class PushNotificationManager {
   }
 
   private static setupListeners() {
-    this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
+    this.notificationListener = (Notifications as any).addNotificationReceivedListener((notification: any) => {
     });
 
-    this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-      const data = response.notification.request.content.data as unknown as PushNotificationData;
+    this.responseListener = (Notifications as any).addNotificationResponseReceivedListener((response: any) => {
+      const data = (response.notification.request.content.data || {}) as PushNotificationData;
       this.handleNotificationTap(data);
     });
   }
@@ -125,20 +125,20 @@ export class PushNotificationManager {
     title: string,
     body: string,
     data?: PushNotificationData,
-    trigger?: Notifications.NotificationTriggerInput
+    trigger?: any
   ): Promise<string> {
     try {
       if (!isNotificationsSupported) {
         return '';
       }
 
-      const id = await Notifications.scheduleNotificationAsync({
+      const id = await (Notifications as any).scheduleNotificationAsync({
         content: {
           title,
           body,
           data: (data || {}) as Record<string, unknown>,
           sound: true,
-          priority: Notifications.AndroidNotificationPriority.HIGH,
+          priority: (Notifications as any).AndroidNotificationPriority?.HIGH ?? 'high',
         },
         trigger: trigger || null,
       });
@@ -160,7 +160,7 @@ export class PushNotificationManager {
   static async cancelNotification(notificationId: string): Promise<void> {
     try {
       if (!isNotificationsSupported) return;
-      await Notifications.cancelScheduledNotificationAsync(notificationId);
+      await (Notifications as any).cancelScheduledNotificationAsync(notificationId);
     } catch {
     }
   }
@@ -168,7 +168,7 @@ export class PushNotificationManager {
   static async cancelAllNotifications(): Promise<void> {
     try {
       if (!isNotificationsSupported) return;
-      await Notifications.cancelAllScheduledNotificationsAsync();
+      await (Notifications as any).cancelAllScheduledNotificationsAsync();
     } catch {
     }
   }
@@ -176,7 +176,7 @@ export class PushNotificationManager {
   static async getBadgeCount(): Promise<number> {
     try {
       if (!isNotificationsSupported) return 0;
-      return await Notifications.getBadgeCountAsync();
+      return await (Notifications as any).getBadgeCountAsync();
     } catch {
       return 0;
     }
@@ -185,7 +185,7 @@ export class PushNotificationManager {
   static async setBadgeCount(count: number): Promise<void> {
     try {
       if (!isNotificationsSupported) return;
-      await Notifications.setBadgeCountAsync(count);
+      await (Notifications as any).setBadgeCountAsync(count);
     } catch {
     }
   }

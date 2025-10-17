@@ -35,7 +35,7 @@ export default function PrivacyPolicyScreen() {
 
   const renderMarkdown = (text: string) => {
     const lines = text.split('\n');
-    const elements: JSX.Element[] = [];
+    const elements: React.ReactElement[] = [];
     
     lines.forEach((line, index) => {
       if (line.startsWith('# ')) {

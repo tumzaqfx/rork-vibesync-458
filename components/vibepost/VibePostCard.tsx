@@ -16,7 +16,7 @@ interface VibePostCardProps {
 
 
 export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
-  const { theme } = useTheme();
+  const { colors } = useTheme();
   const { likeVibePost, repostVibePost } = useVibePosts();
 
   const formatCount = (count: number): string => {
@@ -36,7 +36,7 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
   };
 
   const handlePlayVideo = useCallback(() => {
-    router.push(`/vibepost/${post.id}`);
+    router.push(`/vibepost/${post.id}` as any);
   }, [post.id]);
 
   const handleLike = useCallback(() => {
@@ -48,7 +48,7 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
   }, [post.id, repostVibePost]);
 
   const handleComment = useCallback(() => {
-    router.push(`/vibepost/${post.id}?focus=comments`);
+    router.push(`/vibepost/${post.id}?focus=comments` as any);
   }, [post.id]);
 
   const handleShare = useCallback(() => {
@@ -56,7 +56,7 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
   }, [post.id]);
 
   const handleUserPress = useCallback(() => {
-    router.push(`/user/${post.userId}`);
+    router.push(`/user/${post.userId}` as any);
   }, [post.userId]);
 
 
@@ -67,18 +67,18 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
   }, [post.aspectRatio]);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}> 
       <View style={styles.header}>
         <TouchableOpacity onPress={handleUserPress} style={styles.userInfo}>
           <Avatar uri={post.avatar} size={40} />
           <View style={styles.userText}>
             <View style={styles.nameRow}>
-              <Text style={[styles.displayName, { color: theme.text }]}>
+              <Text style={[styles.displayName, { color: colors.text }]}> 
                 {post.displayName}
               </Text>
               {post.verified && <VerifiedBadge size={16} />}
             </View>
-            <Text style={[styles.username, { color: theme.textSecondary }]}>
+            <Text style={[styles.username, { color: colors.textSecondary }]}> 
               @{post.username}
             </Text>
           </View>
@@ -108,38 +108,38 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
       </TouchableOpacity>
 
       {post.caption && (
-        <Text style={[styles.caption, { color: theme.text }]}>
+        <Text style={[styles.caption, { color: colors.text }]}> 
           {post.caption}
         </Text>
       )}
 
       {post.music && (
-        <View style={[styles.musicInfo, { backgroundColor: theme.card }]}>
-          <Text style={[styles.musicText, { color: theme.textSecondary }]}>
+        <View style={[styles.musicInfo, { backgroundColor: colors.card }]}> 
+          <Text style={[styles.musicText, { color: colors.textSecondary }]}> 
             🎵 {post.music.title} - {post.music.artist}
           </Text>
         </View>
       )}
 
       <View style={styles.stats}>
-        <Text style={[styles.statsText, { color: theme.textSecondary }]}>
+        <Text style={[styles.statsText, { color: colors.textSecondary }]}> 
           {formatCount(post.views)} views
         </Text>
       </View>
 
-      <View style={[styles.actions, { borderTopColor: theme.border }]}>
+      <View style={[styles.actions, { borderTopColor: colors.border }]}> 
         <TouchableOpacity 
           style={styles.actionButton}
           onPress={handleLike}
         >
           <Heart 
             size={20} 
-            color={post.isLiked ? '#FF3B5C' : theme.textSecondary}
+            color={post.isLiked ? '#FF3B5C' : colors.textSecondary}
             fill={post.isLiked ? '#FF3B5C' : 'none'}
           />
           <Text style={[
             styles.actionText, 
-            { color: post.isLiked ? '#FF3B5C' : theme.textSecondary }
+            { color: post.isLiked ? '#FF3B5C' : colors.textSecondary }
           ]}>
             {formatCount(post.likes)}
           </Text>
@@ -149,8 +149,8 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
           style={styles.actionButton}
           onPress={handleComment}
         >
-          <MessageCircle size={20} color={theme.textSecondary} />
-          <Text style={[styles.actionText, { color: theme.textSecondary }]}>
+          <MessageCircle size={20} color={colors.textSecondary} />
+          <Text style={[styles.actionText, { color: colors.textSecondary }]}> 
             {formatCount(post.comments)}
           </Text>
         </TouchableOpacity>
@@ -161,11 +161,11 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
         >
           <Repeat2 
             size={20} 
-            color={post.isReposted ? '#00BA7C' : theme.textSecondary}
+            color={post.isReposted ? '#00BA7C' : colors.textSecondary}
           />
           <Text style={[
             styles.actionText, 
-            { color: post.isReposted ? '#00BA7C' : theme.textSecondary }
+            { color: post.isReposted ? '#00BA7C' : colors.textSecondary }
           ]}>
             {formatCount(post.reposts)}
           </Text>
@@ -175,7 +175,7 @@ export const VibePostCard = React.memo(({ post }: VibePostCardProps) => {
           style={styles.actionButton}
           onPress={handleShare}
         >
-          <Share2 size={20} color={theme.textSecondary} />
+          <Share2 size={20} color={colors.textSecondary} />
         </TouchableOpacity>
       </View>
     </View>

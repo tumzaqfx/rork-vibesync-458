@@ -272,6 +272,6 @@ const styles = StyleSheet.create({
   documentText: {
     fontSize: 15,
     lineHeight: 24,
-    whiteSpace: 'pre-wrap' as any,
+    // Ensure line breaks in long documents are respected without invalid RN styles
   },
 });

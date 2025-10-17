@@ -89,7 +89,7 @@ export default function NotificationsScreen() {
         }
         break;
       case 'live':
-        router.push('/(tabs)/sync');
+        router.push('/(tabs)');
         break;
       default:
         break;

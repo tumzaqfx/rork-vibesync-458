@@ -34,7 +34,7 @@ async function initializeServer() {
       port,
       hostname,
       fetch: app.fetch,
-      error(error) {
+      error(error: any) {
         console.error('[Server] ❌ Request error:', error.message);
         return new Response(
           JSON.stringify({ 

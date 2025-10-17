@@ -7,7 +7,7 @@ import { useTheme } from '@/hooks/theme-store';
 import { useVibePosts } from '@/hooks/vibepost-store';
 import { useAuth } from '@/hooks/auth-store';
 import { VibePostUpload } from '@/types/vibepost';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 interface VibePostUploaderProps {
   visible: boolean;
@@ -15,7 +15,7 @@ interface VibePostUploaderProps {
 }
 
 export default function VibePostUploader({ visible, onClose }: VibePostUploaderProps) {
-  const { theme } = useTheme();
+  const { colors } = useTheme();
   const { uploadVibePost, isUploading } = useVibePosts();
   const { user } = useAuth();
 
@@ -129,14 +129,20 @@ export default function VibePostUploader({ visible, onClose }: VibePostUploaderP
     };
 
     try {
-      await uploadVibePost(upload, user);
+      await uploadVibePost(upload, {
+        id: user.id,
+        username: user.username || '',
+        displayName: user.displayName || user.username || 'User',
+        avatar: user.avatar || '',
+        verified: Boolean((user as any).verified),
+      });
       Alert.alert('Success', 'Your VibePost is now live!');
       handleClose();
     } catch (error) {
       console.error('Upload error:', error);
       Alert.alert('Upload Failed', 'Failed to upload video. Please try again.');
     }
-  }, [videoUri, thumbnailUri, caption, duration, aspectRatio, musicTitle, musicArtist, hashtags, user, uploadVibePost, handleClose]);
+  }, [videoUri, thumbnailUri, caption, duration, aspectRatio, musicTitle, musicArtist, hashtags, user, uploadVibePost]);
 
   const handleClose = useCallback(() => {
     setVideoUri('');
@@ -158,26 +164,26 @@ export default function VibePostUploader({ visible, onClose }: VibePostUploaderP
       presentationStyle="pageSheet"
       onRequestClose={handleClose}
     >
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <View style={[styles.header, { borderBottomColor: theme.border }]}>
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={[styles.header, { borderBottomColor: colors.border }]}>
           <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
-            <X size={24} color={theme.text} />
+            <X size={24} color={colors.text} />
           </TouchableOpacity>
-          <Text style={[styles.title, { color: theme.text }]}>Upload VibePost</Text>
+          <Text style={[styles.title, { color: colors.text }]}>Upload VibePost</Text>
           <View style={{ width: 24 }} />
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           {!videoUri ? (
-            <TouchableOpacity 
-              style={[styles.uploadArea, { borderColor: theme.border }]}
+          <TouchableOpacity 
+            style={[styles.uploadArea, { borderColor: colors.border }]}
               onPress={pickVideo}
             >
-              <Upload size={48} color={theme.textSecondary} />
-              <Text style={[styles.uploadText, { color: theme.text }]}>
+              <Upload size={48} color={colors.textSecondary} />
+              <Text style={[styles.uploadText, { color: colors.text }]}> 
                 Tap to select video
               </Text>
-              <Text style={[styles.uploadSubtext, { color: theme.textSecondary }]}>
+              <Text style={[styles.uploadSubtext, { color: colors.textSecondary }]}> 
                 Max 2 minutes
               </Text>
             </TouchableOpacity>
@@ -202,90 +208,90 @@ export default function VibePostUploader({ visible, onClose }: VibePostUploaderP
           {videoUri && (
             <>
               <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>
-                  <ImageIcon size={18} color={theme.text} /> Thumbnail
+                <Text style={[styles.sectionTitle, { color: colors.text }]}> 
+                  <ImageIcon size={18} color={colors.text} /> Thumbnail
                 </Text>
                 <TouchableOpacity 
-                  style={[styles.thumbnailButton, { borderColor: theme.border }]}
+                  style={[styles.thumbnailButton, { borderColor: colors.border }]}
                   onPress={pickThumbnail}
                 >
-                  <Text style={[styles.thumbnailButtonText, { color: theme.primary }]}>
+                  <Text style={[styles.thumbnailButtonText, { color: colors.primary }]}> 
                     {thumbnailUri ? 'Change Thumbnail' : 'Select Custom Thumbnail'}
                   </Text>
                 </TouchableOpacity>
               </View>
 
               <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>
-                  <Type size={18} color={theme.text} /> Caption
+                <Text style={[styles.sectionTitle, { color: colors.text }]}> 
+                  <Type size={18} color={colors.text} /> Caption
                 </Text>
                 <TextInput
                   style={[styles.input, { 
-                    backgroundColor: theme.card, 
-                    color: theme.text,
-                    borderColor: theme.border 
+                    backgroundColor: colors.card, 
+                    color: colors.text,
+                    borderColor: colors.border 
                   }]}
                   placeholder="What's this video about?"
-                  placeholderTextColor={theme.textSecondary}
+                  placeholderTextColor={colors.textSecondary}
                   value={caption}
                   onChangeText={setCaption}
                   multiline
                   maxLength={280}
                 />
-                <Text style={[styles.charCount, { color: theme.textSecondary }]}>
+                <Text style={[styles.charCount, { color: colors.textSecondary }]}> 
                   {caption.length}/280
                 </Text>
               </View>
 
               <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>
-                  <Music size={18} color={theme.text} /> Music (Optional)
+                <Text style={[styles.sectionTitle, { color: colors.text }]}> 
+                  <Music size={18} color={colors.text} /> Music (Optional)
                 </Text>
                 <TextInput
                   style={[styles.input, { 
-                    backgroundColor: theme.card, 
-                    color: theme.text,
-                    borderColor: theme.border 
+                    backgroundColor: colors.card, 
+                    color: colors.text,
+                    borderColor: colors.border 
                   }]}
                   placeholder="Song title"
-                  placeholderTextColor={theme.textSecondary}
+                  placeholderTextColor={colors.textSecondary}
                   value={musicTitle}
                   onChangeText={setMusicTitle}
                 />
                 <TextInput
                   style={[styles.input, { 
-                    backgroundColor: theme.card, 
-                    color: theme.text,
-                    borderColor: theme.border,
+                    backgroundColor: colors.card, 
+                    color: colors.text,
+                    borderColor: colors.border,
                     marginTop: 8 
                   }]}
                   placeholder="Artist name"
-                  placeholderTextColor={theme.textSecondary}
+                  placeholderTextColor={colors.textSecondary}
                   value={musicArtist}
                   onChangeText={setMusicArtist}
                 />
               </View>
 
               <View style={styles.section}>
-                <Text style={[styles.sectionTitle, { color: theme.text }]}>
-                  <Hash size={18} color={theme.text} /> Hashtags
+                <Text style={[styles.sectionTitle, { color: colors.text }]}> 
+                  <Hash size={18} color={colors.text} /> Hashtags
                 </Text>
                 <View style={styles.hashtagInput}>
                   <TextInput
                     style={[styles.input, { 
-                      backgroundColor: theme.card, 
-                      color: theme.text,
-                      borderColor: theme.border,
+                      backgroundColor: colors.card, 
+                      color: colors.text,
+                      borderColor: colors.border,
                       flex: 1 
                     }]}
                     placeholder="Add hashtag"
-                    placeholderTextColor={theme.textSecondary}
+                    placeholderTextColor={colors.textSecondary}
                     value={hashtagInput}
                     onChangeText={setHashtagInput}
                     onSubmitEditing={addHashtag}
                   />
                   <TouchableOpacity 
-                    style={[styles.addButton, { backgroundColor: theme.primary }]}
+                    style={[styles.addButton, { backgroundColor: colors.primary }]}
                     onPress={addHashtag}
                   >
                     <Text style={styles.addButtonText}>Add</Text>
@@ -296,13 +302,13 @@ export default function VibePostUploader({ visible, onClose }: VibePostUploaderP
                     {hashtags.map(tag => (
                       <TouchableOpacity
                         key={tag}
-                        style={[styles.hashtagChip, { backgroundColor: theme.card }]}
+                        style={[styles.hashtagChip, { backgroundColor: colors.card }]}
                         onPress={() => removeHashtag(tag)}
                       >
-                        <Text style={[styles.hashtagText, { color: theme.primary }]}>
+                        <Text style={[styles.hashtagText, { color: colors.primary }]}> 
                           #{tag}
                         </Text>
-                        <X size={14} color={theme.textSecondary} />
+                        <X size={14} color={colors.textSecondary} />
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -313,7 +319,7 @@ export default function VibePostUploader({ visible, onClose }: VibePostUploaderP
         </ScrollView>
 
         {videoUri && (
-          <View style={[styles.footer, { borderTopColor: theme.border }]}>
+          <View style={[styles.footer, { borderTopColor: colors.border }]}> 
             <Button
               title={isUploading ? 'Uploading...' : 'Post VibePost'}
               onPress={handleUpload}

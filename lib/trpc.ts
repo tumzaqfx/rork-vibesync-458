@@ -24,10 +24,10 @@ const getBaseUrl = () => {
     return backendUrl;
   }
 
-  console.error('[tRPC] ❌ No backend URL configured!');
-  throw new Error(
-    "No base url found. Please set EXPO_PUBLIC_RORK_API_BASE_URL (tunnel) or EXPO_PUBLIC_BACKEND_URL"
-  );
+  // Safe fallback to avoid crashing in production APKs when envs are missing.
+  const fallback = 'https://api.vibesync.app';
+  console.warn('[tRPC] ⚠️  No backend URL configured. Falling back to default:', fallback);
+  return fallback;
 };
 
 export const setAuthToken = (token: string | undefined) => {
